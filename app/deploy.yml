@@ -3,14 +3,7 @@ kind: Deployment
 metadata:
   name: laravel
 spec:
-  minReadySeconds: 5
-  strategy:
-    # indicate which strategy we want for rolling update
-    type: RollingUpdate
-    rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 1
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: laravel-app
@@ -21,7 +14,7 @@ spec:
     spec:
       containers:
       - name: laravel-app
-        image: asia.gcr.io/billshiun/laravel-k8s-demo
+        image: docker.io/pietheinstrengholt/laravel-on-k8s:v1
         volumeMounts:
         - name: app-secret
           mountPath: "/var/www/html/secret"
