@@ -5,7 +5,7 @@ metadata:
   labels:
     tier: backend
 spec:
-  replicas: 5
+  replicas: 2
   selector:
     matchLabels:
       app: php
@@ -22,7 +22,7 @@ spec:
           path: /code
       containers:
       - name: php
-        image: hirenkavad/laravel-k8:1.5.1
+        image: smart48/laravel-app:latest
         volumeMounts:
         - name: dir
           mountPath: /code
