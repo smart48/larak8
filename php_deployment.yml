@@ -32,8 +32,8 @@ spec:
         volumeMounts:
         - name: dir
           mountPath: /code
-        command:
-        - cp
-        - "-r"
-        - "/var/www/."
-        - "/code/app"
+        # command:
+        # - cp
+        # - "-r"
+        # - "/var/www/."
+        # - "/code/app"
