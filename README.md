@@ -7,8 +7,7 @@ Kubernetes Deployment of Dockerized Laravel application. This deployment setup i
 
 We still need to add 
 1. Workspace,
-2. Beanstalkd queues, 
-3. PHP Worker and
+2. PHP Worker
 
 
   ## Horizon
