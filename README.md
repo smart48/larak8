@@ -9,4 +9,8 @@ We still need to add
 1. Workspace,
 2. Beanstalkd queues, 
 3. PHP Worker and
-4. Horizon
+
+
+  ## Horizon
+
+  In progress based on code by [Lorenzo Asiello](https://lorenzo.aiello.family/running-laravel-on-kubernetes/)
