@@ -16,7 +16,7 @@ Nginx `Dockerfile` now also uses shell to copy over SSL certificates. We will no
 
 ## Web Deployment
 
-Option to run PHP FPM or Laravel App with Nginx in one deployment. Nginx we use a standard base image and add configuration using a configmap. Web deployment uses `HorizontalPodAutoscaler`
+Option to run PHP FPM or Laravel App with Nginx in one deployment. Nginx we use a standard base image and add configuration using a configmap. Web deployment uses `HorizontalPodAutoscaler` which we may remove again as we do things during provisoning already.
 
 ### PHP Deployment
 
@@ -28,13 +28,13 @@ Laradock directory contains building blocks for Nginx image. It builds with copy
 
 This part was added as we do not have `docker-compose` to load these with
 
-````
+```yml
 - ${NGINX_SITES_PATH}:/etc/nginx/sites-available
 ```
 
 from localhost to volume:
 
-```
+```Dockerfile
 # Copy the site configuration file to the correct location
 COPY sites/smart48.conf /etc/nginx/sites-available
 ```
