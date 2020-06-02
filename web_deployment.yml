@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: laravel
-          image: smart48/laravel-app:latest
+          image: smart48/smt-laravel:latest
           ports:
             - containerPort: 9000
           resources:
