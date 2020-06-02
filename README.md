@@ -78,6 +78,6 @@ data:
 
 ## Sources
 
-[Lorenzo Aiello](https://lorenzo.aiello.family/running-laravel-on-kubernetes/)
-[Coding Monk](https://gist.github.com/CodingMonkTech/cafec3a17d2d29f595b01d5b394b0478/)
-[Bill Willson](https://github.com/BillWilson/laravel-k8s-demo/)
+- [Lorenzo Aiello](https://lorenzo.aiello.family/running-laravel-on-kubernetes/)
+- [Coding Monk](https://gist.github.com/CodingMonkTech/cafec3a17d2d29f595b01d5b394b0478/)
+- [Bill Willson](https://github.com/BillWilson/laravel-k8s-demo/)
