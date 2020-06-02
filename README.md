@@ -35,17 +35,17 @@ For SSL we did add
 
 but commented things out as we plan to use Cert Manager.
 
-This part was added as we do not have `docker-compose` to load these with
+This site.conf part was added as we do not have `docker-compose` to load these with:
 
 ```yml
 - ${NGINX_SITES_PATH}:/etc/nginx/sites-available
 ```
 
-from localhost to volume:
+from localhost to volume sowe use
 
 ```Dockerfile
 # Copy the site configuration file to the correct location
-COPY sites/smart48.conf /etc/nginx/sites-available
+COPY sites/*.conf /etc/nginx/sites-available
 ```
 
 
