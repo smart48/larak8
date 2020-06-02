@@ -44,4 +44,9 @@ RUN echo "upstream php-upstream { server ${PHP_UPSTREAM_CONTAINER}:${PHP_UPSTREA
 # Copy the site configuration file to the correct location
 COPY sites/*.conf /etc/nginx/sites-available
 
+# COPY SSL certificates
+
+# COPY ssl/server.cert /etc/nginx/ssl/smart48.com/1/server.crt
+# COPY  ssl/server.key /etc/nginx/ssl/smart48.com/1/server.key
+
 EXPOSE 80 81 443

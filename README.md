@@ -26,6 +26,17 @@ Had copying over codebase command mentioned as used in Coding Monk's file. Now c
 
 Laradock directory contains building blocks for Nginx image. It builds with copying over Nginx general configuration file, as well as  the site files. The actual configuration file for the site is in the built image, not on the Github repo. This is done so others cannot see the specifics. Well unless the image is public of course.
 
+For SSL we did add
+
+```
+# COPY SSL certificates
+
+# COPY ssl/server.cert /etc/nginx/ssl/smart48.com/1/server.crt
+# COPY  ssl/server.key /etc/nginx/ssl/smart48.com/1/server.key
+```
+
+but commented things out as we plan to use Cert Manager.
+
 This part was added as we do not have `docker-compose` to load these with
 
 ```yml
