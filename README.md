@@ -25,3 +25,45 @@ Nginx `Dockerfile` now also uses shell to copy over SSL certificates. We will no
 ## Horizon
 
 In progress based on code by [Lorenzo Asiello](https://lorenzo.aiello.family/running-laravel-on-kubernetes/)
+
+## Secrets
+
+We cannot load secrets into configmaps so we need to use secrets where we do not want others to know the details about. Therefore the app config map may not be used.
+
+We may use something like
+
+```yml
+ApiVersion: v1
+kind: Pod
+metadata: 
+  labels: 
+    context: docker-k8s-lab
+    name: mysql-pod
+  name: mysql-pod
+spec: 
+  containers:
+  - image: "mysql:latest"
+    name: mysql
+    ports: 
+    - containerPort: 3306
+    envFrom:
+      - secretRef:
+         name: mysql-secret
+```
+
+with
+
+```yml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mysql-secret
+type: Opaque
+data:
+  MYSQL_USER: bXlzcWwK
+  MYSQL_PASSWORD: bXlzcWwK
+  MYSQL_DATABASE: c2FtcGxlCg==
+  MYSQL_ROOT_PASSWORD: c3VwZXJzZWNyZXQK
+``
+
+https://stackoverflow.com/questions/33478555/kubernetes-equivalent-of-env-file-in-docker?rq=1

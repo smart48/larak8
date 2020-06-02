@@ -5,19 +5,19 @@ metadata:
 data:
   APP_DEBUG: "false"
   APP_ENV: production
-  APP_KEY: changeme
+  APP_KEY: {{app_key}}
   APP_LOG_LEVEL: debug
   APP_NAME: "Smart48"
-  APP_URL: https://www.laravel.com
+  APP_URL: {{app_url}}
   BROADCAST_DRIVER: pusher
   CACHE_DRIVER: redis
   QUEUE_DRIVER: redis
   SESSION_DRIVER: redis
   DB_CONNECTION: mysql
   DB_DATABASE: backend
-  DB_HOST: changeme
-  DB_PASSWORD: beta1234
+  DB_HOST: {{db_hostname}}
+  DB_PASSWORD: {{db_password}}
   DB_PORT: "3306"
-  DB_USERNAME: beta
+  DB_USERNAME: {{db_username}}
   REDIS_HOST: redis
   REDIS_PORT: "6379"
