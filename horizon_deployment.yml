@@ -1,40 +1,18 @@
 ---
-
-  apiVersion: apps/v1
-  kind: Deployment
-  metadata:
-    name: horizon
-    labels:
-      tier: backend
-      app: horizon
-  spec:
-    replicas: 1
-    revisionHistoryLimit: 1
-    selector:
-      matchLabels:
-        app: horizon
-        tier: backend
-    template:
-      metadata:
-        labels:
-          app: horizon
-          tier: horizon
-      spec:
-        containers:
-          - args:
-              - /bin/bash
-              - -c
-              - php artisan horizon
-            envFrom:
-              - configMapRef:
-                  name: backend-config
-            image: changeme
-            imagePullPolicy: Always
-            name: horizon
-            resources:
-              limits:
-                cpu: 200m
-                memory: 1G
-              requests:
-                cpu: 100m
-                memory: 500M
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: artisan-migration
+spec:
+  ttlSecondsAfterFinished: 300
+  backoffLimit: 3
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: laravel
+          image: smart48/smt-horizon:latest
+          envFrom:
+            - configMapRef:
+                name: laravel-envvars
+          command: ["/usr/local/bin/php", "artisan", "migrate", "--force"]
