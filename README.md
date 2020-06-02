@@ -18,11 +18,11 @@ Nginx `Dockerfile` now also uses shell to copy over SSL certificates. We will no
 
 Option to run PHP FPM or Laravel App with Nginx in one deployment. Nginx we use a standard base image and add configuration using a configmap. Web deployment uses `HorizontalPodAutoscaler`
 
-# PHP Deployment
+### PHP Deployment
 
 Had copying over codebase command mentioned as used in Coding Monk's file. Now commented out as we will deploy using Circle Ci or PHP Deployer instead.
 
-# Nginx Deployment
+### Nginx Deployment
 
 Laradock directory contains building blocks for Nginx image. It builds with copying over Nginx general configuration file, not the site files. There are site config examples however. The Nginx deployment file has an Nginx configuration map as well. This can be the main website `site.conf` file mentioned in the deployment. 
 
@@ -72,7 +72,7 @@ data:
   MYSQL_PASSWORD: bXlzcWwK
   MYSQL_DATABASE: c2FtcGxlCg==
   MYSQL_ROOT_PASSWORD: c3VwZXJzZWNyZXQK
-``
+```
 
 [Kubernetes Secrets SO thread](https://stackoverflow.com/questions/33478555/kubernetes-equivalent-of-env-file-in-docker?rq=1)
 
