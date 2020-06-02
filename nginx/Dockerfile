@@ -46,7 +46,7 @@ COPY sites/*.conf /etc/nginx/sites-available
 
 # COPY SSL certificates
 
-# COPY ssl/server.cert /etc/nginx/ssl/smart48.com/1/server.crt
-# COPY  ssl/server.key /etc/nginx/ssl/smart48.com/1/server.key
+# COPY ssl/server.cert /etc/nginx/ssl/site.com/1/server.crt
+# COPY  ssl/server.key /etc/nginx/ssl/site.com/1/server.key
 
 EXPOSE 80 81 443
