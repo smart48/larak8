@@ -26,7 +26,7 @@ spec:
             limits:
               cpu: 500m
         - name: nginx
-          image: nginx:alpine
+          image: smart48/smt-nginx:latest
           ports:
             - containerPort: 80
 ---

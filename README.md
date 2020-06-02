@@ -24,7 +24,21 @@ Had copying over codebase command mentioned as used in Coding Monk's file. Now c
 
 ### Nginx Deployment
 
-Laradock directory contains building blocks for Nginx image. It builds with copying over Nginx general configuration file, not the site files. There are site config examples however. The Nginx deployment file has an Nginx configuration map as well. This can be the main website `site.conf` file mentioned in the deployment. 
+Laradock directory contains building blocks for Nginx image. It builds with copying over Nginx general configuration file, as well as  the site files. The actual configuration file for the site is in the built image, not on the Github repo. This is done so others cannot see the specifics. Well unless the image is public of course.
+
+This part was added as we do not have `docker-compose` to load these with
+
+````
+- ${NGINX_SITES_PATH}:/etc/nginx/sites-available
+```
+
+from localhost to volume:
+
+```
+# Copy the site configuration file to the correct location
+COPY sites/smart48.conf /etc/nginx/sites-available
+```
+
 
 ## Cronjob
 
