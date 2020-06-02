@@ -9,8 +9,6 @@ We still need to add
 1. Workspace,
 2. PHP Worker
 
-Both PHP deployment and Nginx deployment currently based on https://gist.github.com/CodingMonkTech/cafec3a17d2d29f595b01d5b394b0478
-
 
 Nginx `Dockerfile` now also uses shell to copy over SSL certificates. We will not be using that as we will use Cert Manager instead. So that part commented out for now as well.
 
