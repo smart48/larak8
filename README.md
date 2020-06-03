@@ -112,7 +112,7 @@ followed by
 
 ```
 kubectl apply -f web_deployment.yml
-``
+```
 
 
 ## Resources
