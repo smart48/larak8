@@ -300,6 +300,86 @@ web-fbd58c4c7-4rdxw   2/2     Running   0          38s
 web-fbd58c4c7-rmmm2   2/2     Running   0          38s
 web-fbd58c4c7-snzdx   2/2     Running   0          21s
 ```
+## Pods + Containers
+
+```
+kubectl describe pod/web-84c8f5c8df-5bb7t -n default
+Name:         web-84c8f5c8df-5bb7t
+Namespace:    default
+Priority:     0
+Node:         minikube/172.17.0.2
+Start Time:   Wed, 03 Jun 2020 15:33:36 +0700
+Labels:       app=web
+              pod-template-hash=84c8f5c8df
+Annotations:  <none>
+Status:       Running
+IP:           172.18.0.3
+IPs:
+  IP:           172.18.0.3
+Controlled By:  ReplicaSet/web-84c8f5c8df
+Containers:
+  laravel:
+    Container ID:   docker://f440b3b4fe8b3f1721a83b547e09d577d39e51d32aee2d73389723c867dc3bd2
+    Image:          smart48/smt-laravel:latest
+    Image ID:       docker-pullable://smart48/smt-laravel@sha256:35202976150b7d80dc84124bdc6753e2c88b954ce6d0ae4e1eb47145f822bb03
+    Port:           9000/TCP
+    Host Port:      0/TCP
+    State:          Running
+      Started:      Wed, 03 Jun 2020 15:33:41 +0700
+    Ready:          True
+    Restart Count:  0
+    Limits:
+      cpu:  500m
+    Requests:
+      cpu:        250m
+    Environment:  <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from default-token-7lxgn (ro)
+  nginx:
+    Container ID:   docker://b4377cfff6113051a134ce1832b337680bc067bb06e920a29ebd37288e6a923a
+    Image:          smart48/smt-nginx:latest
+    Image ID:       docker-pullable://smart48/smt-nginx@sha256:68d5e204bb05a91f8e1dadbd2f995ee0ea92516d89d59e23931869a2aa59bc89
+    Port:           80/TCP
+    Host Port:      0/TCP
+    State:          Running
+      Started:      Wed, 03 Jun 2020 15:33:51 +0700
+    Ready:          True
+    Restart Count:  0
+    Environment:    <none>
+    Mounts:
+      /var/run/secrets/kubernetes.io/serviceaccount from default-token-7lxgn (ro)
+Conditions:
+  Type              Status
+  Initialized       True
+  Ready             True
+  ContainersReady   True
+  PodScheduled      True
+Volumes:
+  dir:
+    Type:          HostPath (bare host directory volume)
+    Path:          /var/www
+    HostPathType:
+  default-token-7lxgn:
+    Type:        Secret (a volume populated by a Secret)
+    SecretName:  default-token-7lxgn
+    Optional:    false
+QoS Class:       Burstable
+Node-Selectors:  <none>
+Tolerations:     node.kubernetes.io/not-ready:NoExecute for 300s
+                 node.kubernetes.io/unreachable:NoExecute for 300s
+Events:
+  Type    Reason     Age        From               Message
+  ----    ------     ----       ----               -------
+  Normal  Scheduled  <unknown>  default-scheduler  Successfully assigned default/web-84c8f5c8df-5bb7t to minikube
+  Normal  Pulling    9m26s      kubelet, minikube  Pulling image "smart48/smt-laravel:latest"
+  Normal  Pulled     9m23s      kubelet, minikube  Successfully pulled image "smart48/smt-laravel:latest"
+  Normal  Created    9m22s      kubelet, minikube  Created container laravel
+  Normal  Started    9m22s      kubelet, minikube  Started container laravel
+  Normal  Pulling    9m22s      kubelet, minikube  Pulling image "smart48/smt-nginx:latest"
+  Normal  Pulled     9m12s      kubelet, minikube  Successfully pulled image "smart48/smt-nginx:latest"
+  Normal  Created    9m12s      kubelet, minikube  Created container nginx
+  Normal  Started    9m12s      kubelet, minikube  Started container nginx
+```
 
 ## Issues with old pods
 
