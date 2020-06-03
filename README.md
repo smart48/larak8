@@ -60,14 +60,31 @@ To use a load balancer and access it on Minikube use `minikube service loadbalan
 
 ## Access Pod/Container
 
+To list all pods in all namespaces use
+
+```
+kubectl get pods --all-namespaces 
+```
+
+and just the ones we launched with the deployment
+
+```
+kubectl get pods --namespace default
+```
+
+You can then access a pod by its name
+
 ```
 kubectl exec -it web-84c8f5c8df-5bb7t -- /bin/bash
 ```
 
-Use `kubectl describe pod/web-84c8f5c8df-5bb7t -n default` to see all of the containers in this pod. And use `kubectl exec -it web-84c8f5c8df-b9hhd -c nginx -- /bin/bash` to pick a specific container inside a pod.
+Use `kubectl describe pod/web-84c8f5c8df-5bb7t -n default` to see all of the containers in this pod. 
+
+And use `kubectl exec -it web-84c8f5c8df-b9hhd -c nginx -- /bin/bash` to pick a specific container inside a pod.
 
 ## Resources
 
 - [Lorenzo Aiello](https://lorenzo.aiello.family/running-laravel-on-kubernetes/)
 - [Coding Monk](https://gist.github.com/CodingMonkTech/cafec3a17d2d29f595b01d5b394b0478/)
 - [Bill Willson](https://github.com/BillWilson/laravel-k8s-demo/)
+-  [Kubernetes Cheatsheets](https://kubernetes.io/docs/reference/kubectl/cheatsheet/)
