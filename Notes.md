@@ -289,6 +289,18 @@ Events:
 
 Writing about it in [K8 Community thread](https://discuss.kubernetes.io/t/laravel-app-nginx-crashloopbackoff/11233) I realized we had a container issue. So might have to switch to our own hand rolled images instead of PHP FPM / Nginx by Laradock which demand each other's presence.
 
+So we rebuild the images using different specs and now we did
+
+```
+kubectl rollout restart deployments
+deployment.apps/web restarted
+kubectl get po --namespace default 
+NAME                  READY   STATUS    RESTARTS   AGE
+web-fbd58c4c7-4rdxw   2/2     Running   0          38s
+web-fbd58c4c7-rmmm2   2/2     Running   0          38s
+web-fbd58c4c7-snzdx   2/2     Running   0          21s
+```
+
 ## Issues with old pods
 
 ```
