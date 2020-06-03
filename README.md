@@ -30,12 +30,9 @@ There is a [Kubernetes Cronjob](https://kubernetes.io/docs/concepts/workloads/co
 
 In progress based on code by [Lorenzo Asiello](https://lorenzo.aiello.family/running-laravel-on-kubernetes/) but adjusted to work with starter command properly.
 
-
-
-
 ## Test
 
-Local testing of the deployment can be done with Minikube. Also see [notes](NOTES.md) on setup and possible issues.
+Local testing of the deployment can be done with Minikube. Also see [notes](./NOTES.md) on setup and possible issues.
 
 ```
 minikube start
