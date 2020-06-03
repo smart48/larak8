@@ -32,7 +32,7 @@ In progress based on code by [Lorenzo Asiello](https://lorenzo.aiello.family/run
 
 ## Test
 
-Local testing of the deployment can be done with Minikube. Also see [notes](./NOTES.md) on setup and possible issues.
+Local testing of the deployment can be done with Minikube. Also see [Notes](Notes.md) on setup and possible issues.
 
 ```
 minikube start
