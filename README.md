@@ -30,7 +30,7 @@ There is a [Kubernetes Cronjob](https://kubernetes.io/docs/concepts/workloads/co
 
 In progress based on code by [Lorenzo Asiello](https://lorenzo.aiello.family/running-laravel-on-kubernetes/) but adjusted to work with starter command properly.
 
-## Test
+## Kubernetes Deployment
 
 Local testing of the deployment can be done with Minikube. Also see [Notes](Notes.md) on setup and possible issues.
 
@@ -44,6 +44,18 @@ followed by
 kubectl apply -f web_deployment.yml
 ```
 
+## Services
+
+Services will be found using
+
+```
+kubectl get svc    
+NAME           TYPE           CLUSTER-IP       EXTERNAL-IP   PORT(S)        AGE
+kubernetes     ClusterIP      10.96.0.1        <none>        443/TCP        5h10m
+loadbalancer   LoadBalancer   10.105.166.110   <pending>     80:31931/TCP   5h8m
+```
+
+To use a load balancer and access it on Minikube use `minikube service loadbalancer`. On Digital Ocean and other cloud providers you will get an external ip. In Minikube it stays pending. See [k8 resource](https://kubernetes.io/docs/tutorials/hello-minikube/#create-a-service)
 
 ## Resources
 
