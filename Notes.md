@@ -314,3 +314,45 @@ laravel6               cert-manager-webhook-8575f88c85-j2sdm            1/1     
 laravel6               nginx-ingress-controller-69d5dc598f-zfpwd        1/1     Running            8          119d
 laravel6               nginx-ingress-default-backend-659bd647bd-568kb   1/1     Running            4          119d
 ```
+
+## Secrets
+
+We cannot load secrets into configmaps so we need to use secrets where we do not want others to know the details about. Therefore the app config map may not be used.
+
+We may use something like
+
+```yml
+ApiVersion: v1
+kind: Pod
+metadata: 
+  labels: 
+    context: docker-k8s-lab
+    name: mysql-pod
+  name: mysql-pod
+spec: 
+  containers:
+  - image: "mysql:latest"
+    name: mysql
+    ports: 
+    - containerPort: 3306
+    envFrom:
+      - secretRef:
+         name: mysql-secret
+```
+
+with
+
+```yml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mysql-secret
+type: Opaque
+data:
+  MYSQL_USER: bXlzcWwK
+  MYSQL_PASSWORD: bXlzcWwK
+  MYSQL_DATABASE: c2FtcGxlCg==
+  MYSQL_ROOT_PASSWORD: c3VwZXJzZWNyZXQK
+```
+
+[Kubernetes Secrets SO thread](https://stackoverflow.com/questions/33478555/kubernetes-equivalent-of-env-file-in-docker?rq=1)
