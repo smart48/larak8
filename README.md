@@ -99,7 +99,23 @@ data:
 
 [Kubernetes Secrets SO thread](https://stackoverflow.com/questions/33478555/kubernetes-equivalent-of-env-file-in-docker?rq=1)
 
-## Sources
+
+## Test
+
+Local testing of the deployment can be done with Minikube. Also see [notes](NOTES.md) on setup and possible issues.
+
+```
+minikube start
+```
+
+followed by 
+
+```
+kubectl apply -f web_deployment.yml
+``
+
+
+## Resources
 
 - [Lorenzo Aiello](https://lorenzo.aiello.family/running-laravel-on-kubernetes/)
 - [Coding Monk](https://gist.github.com/CodingMonkTech/cafec3a17d2d29f595b01d5b394b0478/)
