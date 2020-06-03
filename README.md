@@ -57,6 +57,15 @@ loadbalancer   LoadBalancer   10.105.166.110   <pending>     80:31931/TCP   5h8m
 
 To use a load balancer and access it on Minikube use `minikube service loadbalancer`. On Digital Ocean and other cloud providers you will get an external ip. In Minikube it stays pending. See [k8 resource](https://kubernetes.io/docs/tutorials/hello-minikube/#create-a-service)
 
+
+## Access Pod/Container
+
+```
+kubectl exec -it web-84c8f5c8df-5bb7t -- /bin/bash
+```
+
+Use `kubectl describe pod/web-84c8f5c8df-5bb7t -n default` to see all of the containers in this pod. And use `kubectl exec -it web-84c8f5c8df-b9hhd -c nginx -- /bin/bash` to pick a specific container inside a pod.
+
 ## Resources
 
 - [Lorenzo Aiello](https://lorenzo.aiello.family/running-laravel-on-kubernetes/)
