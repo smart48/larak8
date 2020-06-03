@@ -1,9 +1,11 @@
 # Notes
 
 
-## Docker
+Notes on issues encountered setting up this deployment.
 
-Docker needs to be running. 
+## Local Docker on OSX
+
+Docker needs to be running so make sure you installed Docker for MacOS. 
 
 ## Minikube
 
@@ -287,7 +289,7 @@ Events:
 
 Writing about it in [K8 Community thread](https://discuss.kubernetes.io/t/laravel-app-nginx-crashloopbackoff/11233) I realized we had a container issue. So might have to switch to our own hand rolled images instead of PHP FPM / Nginx by Laradock which demand each other's presence.
 
-##Issues with old pods
+## Issues with old pods
 
 ```
 kubectl get po --all-namespaces
