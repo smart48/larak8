@@ -20,6 +20,7 @@ spec:
     spec:
       volumes:
         - name: dir
+        # path on the host https://kubernetes.io/docs/concepts/storage/volumes/#hostpath
           hostPath:
             path: /var/www
       containers:
