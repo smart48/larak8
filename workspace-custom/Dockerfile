@@ -105,15 +105,97 @@ RUN set -xe; \
       nasm && \
       php -m | grep -q 'zip'
 
+###########################################################################
+# User Aliases
+###########################################################################
 
-#####################################
+USER root
+
+COPY ./aliases.sh /root/aliases.sh
+COPY ./aliases.sh /home/laradock/aliases.sh
+
+RUN sed -i 's/\r//' /root/aliases.sh && \
+    sed -i 's/\r//' /home/laradock/aliases.sh && \
+    chown laradock:laradock /home/laradock/aliases.sh && \
+    echo "" >> ~/.bashrc && \
+    echo "# Load Custom Aliases" >> ~/.bashrc && \
+    echo "source ~/aliases.sh" >> ~/.bashrc && \
+	  echo "" >> ~/.bashrc
+
+USER laradock
+
+RUN echo "" >> ~/.bashrc && \
+    echo "# Load Custom Aliases" >> ~/.bashrc && \
+    echo "source ~/aliases.sh" >> ~/.bashrc && \
+	  echo "" >> ~/.bashrc
+
+###########################################################################
 # Composer:
-#####################################
+###########################################################################
 
-# Install composer and add its bin to the PATH.
-RUN curl -s http://getcomposer.org/installer | php && \
-    echo "export PATH=${PATH}:/var/www/vendor/bin" >> ~/.bashrc && \
-    mv composer.phar /usr/local/bin/composer
+USER root
 
-# Source the bash
-RUN . ~/.bashrc
+# Add the composer.json
+COPY ./composer.json /home/laradock/.composer/composer.json
+
+# Add the auth.json for magento 2 credentials
+COPY ./auth.json /home/laradock/.composer/auth.json
+
+# Make sure that ~/.composer belongs to laradock
+RUN chown -R laradock:laradock /home/laradock/.composer
+
+# Export composer vendor path
+RUN echo "" >> ~/.bashrc && \
+    echo 'export PATH="$HOME/.composer/vendor/bin:$PATH"' >> ~/.bashrc
+
+USER laradock
+
+# Check if global install need to be ran
+ARG COMPOSER_GLOBAL_INSTALL=false
+ENV COMPOSER_GLOBAL_INSTALL ${COMPOSER_GLOBAL_INSTALL}
+
+RUN if [ ${COMPOSER_GLOBAL_INSTALL} = true ]; then \
+    # run the install
+    composer global install \
+;fi
+
+# Check if auth file is disabled
+ARG COMPOSER_AUTH=false
+ENV COMPOSER_AUTH ${COMPOSER_AUTH}
+
+RUN if [ ${COMPOSER_AUTH} = false ]; then \
+    # remove the file
+    rm /home/laradock/.composer/auth.json \
+;fi
+
+ARG COMPOSER_REPO_PACKAGIST
+ENV COMPOSER_REPO_PACKAGIST ${COMPOSER_REPO_PACKAGIST}
+
+RUN if [ ${COMPOSER_REPO_PACKAGIST} ]; then \
+    composer config -g repo.packagist composer ${COMPOSER_REPO_PACKAGIST} \
+;fi
+
+# Export composer vendor path
+RUN echo "" >> ~/.bashrc && \
+    echo 'export PATH="~/.composer/vendor/bin:$PATH"' >> ~/.bashrc
+
+###########################################################################
+# ssh:
+###########################################################################
+
+ARG INSTALL_WORKSPACE_SSH=true
+
+COPY insecure_id_rsa /tmp/id_rsa
+COPY insecure_id_rsa.pub /tmp/id_rsa.pub
+
+RUN if [ ${INSTALL_WORKSPACE_SSH} = true ]; then \
+    rm -f /etc/service/sshd/down && \
+    cat /tmp/id_rsa.pub >> /root/.ssh/authorized_keys \
+        && cat /tmp/id_rsa.pub >> /root/.ssh/id_rsa.pub \
+        && cat /tmp/id_rsa >> /root/.ssh/id_rsa \
+        && rm -f /tmp/id_rsa* \
+        && chmod 644 /root/.ssh/authorized_keys /root/.ssh/id_rsa.pub \
+    && chmod 400 /root/.ssh/id_rsa \
+    && cp -rf /root/.ssh /home/laradock \
+    && chown -R laradock:laradock /home/laradock/.ssh \
+;fi
