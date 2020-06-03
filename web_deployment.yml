@@ -18,6 +18,10 @@ spec:
       labels:
         app: web
     spec:
+      volumes:
+        - name: dir
+          hostPath:
+            path: /var/www
       containers:
         - name: laravel
           image: smart48/smt-laravel:latest
