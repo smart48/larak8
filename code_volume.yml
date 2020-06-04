@@ -1,0 +1,11 @@
+ApiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: code
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 50Gi
+  storageClassName: do-block-storage

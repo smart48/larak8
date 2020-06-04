@@ -41,8 +41,10 @@ minikube start
 followed by 
 
 ```
-kubectl apply -f web_deployment.yml
+kubectl apply -f local_deployment.yml
 ```
+
+To remove a deployment use `kubectl delete -n default deployment web`
 
 ## Services
 
@@ -55,8 +57,39 @@ kubernetes     ClusterIP      10.96.0.1        <none>        443/TCP        5h10
 loadbalancer   LoadBalancer   10.105.166.110   <pending>     80:31931/TCP   5h8m
 ```
 
-To use a load balancer and access it on Minikube use `minikube service loadbalancer`. On Digital Ocean and other cloud providers you will get an external ip. In Minikube it stays pending. See [k8 resource](https://kubernetes.io/docs/tutorials/hello-minikube/#create-a-service)
+To use a load balancer and access it on Minikube use `minikube service loadbalancer`. On Digital Ocean and other cloud providers you will get an external ip. In Minikube it stays pending. See [k8 resource](https://kubernetes.io/docs/tutorials/hello-minikube/#create-a-service).
 
+**NB** We may drop this as we intend to use Nginx Ingress in our provisioning.
+
+## Digital Ocean Storage
+
+The [Digital Ocean storage plugin](https://github.com/digitalocean/csi-digitalocean) to work with block storage using the Container Storage Interface. 
+
+_The CSI plugin allows you to use DigitalOcean Block Storage with your preferred Container Orchestrator._ [url](https://github.com/digitalocean/csi-digitalocean)
+
+You can run the secret first getting access to DO:
+
+```
+kubectl apply -f secret.yaml
+```
+
+Make sure the secret has your access token added. Once secret has been applied you can run
+
+```
+kubectl apply -f https://raw.githubusercontent.com/digitalocean/csi-digitalocean/master/deploy/kubernetes/releases/csi-digitalocean-v1.0.0.yaml
+```
+
+to install the actual plugin.
+
+
+## Persistent Volume
+
+See `code_volume.yml` in which we set up a Persistent Volume which can be accessed by a `PersistentVolumeClaim` or Persistent Volume Claim(PVC).
+```
+kubectl apply -f code_volume.yaml
+```
+
+and to check it has been created and is running we can use `kubectl get pv`
 
 ## Access Pod/Container
 
@@ -87,4 +120,5 @@ And use `kubectl exec -it web-84c8f5c8df-b9hhd -c nginx -- /bin/bash` to pick a 
 - [Lorenzo Aiello](https://lorenzo.aiello.family/running-laravel-on-kubernetes/)
 - [Coding Monk](https://gist.github.com/CodingMonkTech/cafec3a17d2d29f595b01d5b394b0478/)
 - [Bill Willson](https://github.com/BillWilson/laravel-k8s-demo/)
--  [Kubernetes Cheatsheets](https://kubernetes.io/docs/reference/kubectl/cheatsheet/)
+- [Kubernetes Cheatsheets](https://kubernetes.io/docs/reference/kubectl/cheatsheet/)
+- [Digital Ocean how to deploy a PHP application](https://www.digitalocean.com/community/tutorials/how-to-deploy-a-php-application-with-kubernetes-on-ubuntu-16-04)
