@@ -60,8 +60,10 @@ To get the config
 ```
 doctl kubernetes cluster kubeconfig save use_your_cluster_name
 ```
+**NB** Perhaps you already did this and in that case just skip.
 
-and to use it
+
+To use the Kube configuration:
 
 ```
 kubectl --kubeconfig="use_your_kubeconfig.yaml"
