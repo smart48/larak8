@@ -32,11 +32,11 @@ We are using a custom PHP FPM image. Laradock image still in this repository, bu
 
 For NGinx the same as for PHP FPM. We are using a custom image now. We may change this in the future.
 
-## Cronjob
+### Cronjob
 
 There is a [Kubernetes Cronjob](https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/) we can use for Laravel schedules setup. Supervisor is still needed it seems though so we will keep the PHP Worker for now.
 
-## Horizon
+### Horizon
 
 In progress based on code by [Lorenzo Asiello](https://lorenzo.aiello.family/running-laravel-on-kubernetes/) but adjusted to work with starter command properly.
 
@@ -53,6 +53,13 @@ followed by
 ```
 kubectl apply -f local_deployment.yml
 ```
+
+For deploying to Digital Ocean we use 
+```
+kubectl apply -f do_deployment.yml
+```
+
+as well as the code_volume setup file.
 
 To remove a deployment use `kubectl delete -n default deployment web`
 
