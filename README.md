@@ -54,6 +54,19 @@ followed by
 kubectl apply -f local_deployment.yml
 ```
 
+### DO Deployment
+
+To get the config
+```
+doctl kubernetes cluster kubeconfig save use_your_cluster_name
+```
+
+and to use it
+
+```
+kubectl --kubeconfig="use_your_kubeconfig.yaml"
+```
+
 For deploying to Digital Ocean we use 
 ```
 kubectl apply -f do_deployment.yml
