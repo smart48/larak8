@@ -1,19 +1,29 @@
 # Smart48 Laravel Deploy
 
-Kubernetes Deployment of Dockerized Laravel application. This deployment setup is still in alpha stage so cannot be used for production and even testing is limited. We currently have a basic
+Kubernetes Deployment of Dockerized Laravel application at Digital Ocean. This deployment setup is still in alpha stage so cannot be used for production and even testing is limited. We currently have a basic
 
-- php fpm deployment and service
-- nginx deployment and services
+- php fpm deployment
+- nginx deployment
+- load balancer service
+- cron job
+- horizon deployment
+- code volume
 
-We still need to add 
-1. Workspace,
-2. PHP Worker
+We still need to work on:
+
+1. Workspace to take care of `php artisan` tasks,
+2. PHP Worker for running supervisor and
+3. rework the existing ones some more.
 
 
-## Web Deployment
+## Deployments
 
-Option to run PHP FPM or Laravel App with Nginx in one deployment. Nginx we use a standard base image and add configuration using a configmap. Web deployment uses `HorizontalPodAutoscaler` which we may remove again as we do things during provisoning already.
+Option to run PHP FPM or Laravel App with Nginx and Load Balancer in one deployment. Nginx we use a standard base image and add configuration using the image. PHP FPM is a custom image wit all the needs of a Laravel application. The web deployment uses `HorizontalPodAutoscaler` as well which we may remove again as we do things during provisoning already.
 
+
+### Local vs DO 
+
+Local deployment uses a basic volume loading from the host whereas the DO deployment uses a persisent volume storage using the DO CSI plugin
 ### PHP Deployment
 
 We are using a custom PHP FPM image. Laradock image still in this repository, but not in use.
@@ -48,7 +58,7 @@ To remove a deployment use `kubectl delete -n default deployment web`
 
 ## Services
 
-Services will be found using
+Services - only load balancer for now - will be found using:
 
 ```
 kubectl get svc    
@@ -82,9 +92,10 @@ kubectl apply -f https://raw.githubusercontent.com/digitalocean/csi-digitalocean
 to install the actual plugin.
 
 
-## Persistent Volume
+### Persistent Volume
 
 See `code_volume.yml` in which we set up a Persistent Volume which can be accessed by a `PersistentVolumeClaim` or Persistent Volume Claim(PVC).
+
 ```
 kubectl apply -f code_volume.yaml
 ```
