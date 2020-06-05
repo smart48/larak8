@@ -80,18 +80,7 @@ To remove a deployment use `kubectl delete -n default deployment web`
 
 ## Services
 
-Services - only load balancer or Nginx Ingress for now - will be found using:
-
-```
-kubectl get svc    
-NAME           TYPE           CLUSTER-IP       EXTERNAL-IP   PORT(S)        AGE
-kubernetes     ClusterIP      10.96.0.1        <none>        443/TCP        5h10m
-loadbalancer   LoadBalancer   10.105.166.110   <pending>     80:31931/TCP   5h8m
-```
-
-To use a load balancer and access it on Minikube use `minikube service loadbalancer` *after* you deployed the service. On Digital Ocean and other cloud providers you will get an external ip. In Minikube it stays pending. See [k8 resource](https://kubernetes.io/docs/tutorials/hello-minikube/#create-a-service).
-
-We have load balancer as a separate `load_balancer.yml`. This so you can decide to use it or not. In our Terraform infra we have an Nginx Ingress as well and we may only use that and or make it optional in case one prefers a load balancer with Digital Ocean.
+Data to be added on Nginx Ingress
 
 
 ## Digital Ocean Storage
