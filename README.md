@@ -80,7 +80,7 @@ To remove a deployment use `kubectl delete -n default deployment web`
 
 ## Services
 
-Services - only load balancer for now - will be found using:
+Services - only load balancer or Nginx Ingress for now - will be found using:
 
 ```
 kubectl get svc    
@@ -89,9 +89,24 @@ kubernetes     ClusterIP      10.96.0.1        <none>        443/TCP        5h10
 loadbalancer   LoadBalancer   10.105.166.110   <pending>     80:31931/TCP   5h8m
 ```
 
-To use a load balancer and access it on Minikube use `minikube service loadbalancer`. On Digital Ocean and other cloud providers you will get an external ip. In Minikube it stays pending. See [k8 resource](https://kubernetes.io/docs/tutorials/hello-minikube/#create-a-service).
+To use a load balancer and access it on Minikube use `minikube service loadbalancer` after you deployed the service. On Digital Ocean and other cloud providers you will get an external ip. In Minikube it stays pending. See [k8 resource](https://kubernetes.io/docs/tutorials/hello-minikube/#create-a-service).
 
-**NB** We may drop this as we intend to use Nginx Ingress in our provisioning.
+**NB** We may drop the load balancer entirely as we may to use Nginx Ingress in our provisioning only.
+
+We have load balancer as a separate `load_balancer.yml`. This so you can decide to use it or not. In our Terraform infra we have an Nginx Ingress as well and we may only use that and or make it optional in case one prefers a load balancer with Digital Ocean.
+
+### Load Balancer
+
+_If you want to directly expose a service, this is the default method. All traffic on the port you specify will be forwarded to the service. There is no filtering, no routing, etc. This means you can send almost any kind of traffic to it, like HTTP, TCP, UDP, Websockets, gRPC, or whatever._
+
+### Nginx Ingress
+
+_Unlike all the above examples, Ingress is actually NOT a type of service. Instead, it sits in front of multiple services and act as a “smart router” or entrypoint into your cluster._
+
+_Kubernetes Ingresses allow you to flexibly route traffic from outside your Kubernetes cluster to Services inside of your cluster. This is accomplished using Ingress Resources, which define rules for routing HTTP and HTTPS traffic to Kubernetes Services, and Ingress Controllers, which implement the rules by load balancing traffic and routing it to the appropriate backend Services._
+
+[node ports, load balancers and nginx ingress](https://medium.com/google-cloud/kubernetes-nodeport-vs-loadbalancer-vs-ingress-when-should-i-use-what-922f010849e0)
+[do ingress setup](https://www.digitalocean.com/community/tutorials/how-to-set-up-an-nginx-ingress-with-cert-manager-on-digitalocean-kubernetes#step-1-%E2%80%94-setting-up-dummy-backend-services)
 
 ## Digital Ocean Storage
 
