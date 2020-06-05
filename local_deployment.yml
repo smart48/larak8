@@ -50,14 +50,3 @@ spec:
   minReplicas: 3
   maxReplicas: 20
   targetCPUUtilizationPercentage: 50
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: loadbalancer
-spec:
-  type: LoadBalancer
-  ports:
-    - port: 80
-  selector:
-    app: web
