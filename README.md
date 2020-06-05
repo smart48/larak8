@@ -89,7 +89,7 @@ kubernetes     ClusterIP      10.96.0.1        <none>        443/TCP        5h10
 loadbalancer   LoadBalancer   10.105.166.110   <pending>     80:31931/TCP   5h8m
 ```
 
-To use a load balancer and access it on Minikube use `minikube service loadbalancer` after you deployed the service. On Digital Ocean and other cloud providers you will get an external ip. In Minikube it stays pending. See [k8 resource](https://kubernetes.io/docs/tutorials/hello-minikube/#create-a-service).
+To use a load balancer and access it on Minikube use `minikube service loadbalancer` *after* you deployed the service. On Digital Ocean and other cloud providers you will get an external ip. In Minikube it stays pending. See [k8 resource](https://kubernetes.io/docs/tutorials/hello-minikube/#create-a-service).
 
 **NB** We may drop the load balancer entirely as we may to use Nginx Ingress in our provisioning only.
 
@@ -138,6 +138,18 @@ kubectl apply -f code_volume.yaml
 ```
 
 and to check it has been created and is running we can use `kubectl get pv`
+
+
+### Read Write Many Setup with NFS Sserver
+
+A[Read Write Many Setup at DO](https://www.digitalocean.com/community/tutorials/how-to-set-up-readwritemany-rwx-persistent-volumes-with-nfs-on-digitalocean-kubernetes) is possible with an NFS server so you can share data across Droplets or Nodes. This setup is not used in our current deployment.
+
+_DigitalOcean’s default Block Storage CSI solution is unable to support mounting one block storage volume to many Droplets simultaneously. This means that this is a ReadWriteOnce (RWO) solution, since the volume is confined to one node. The Network File System (NFS) protocol, on the other hand, does support exporting the same share to many consumers. This is called ReadWriteMany (RWX), because many nodes can mount the volume as read-write. We can therefore use an NFS server within our cluster to provide storage that can leverage the reliable backing of DigitalOcean Block Storage with the flexibility of NFS shares._
+
+
+### Digital Ocean Spaces
+
+Spaces usage for storage [via the Spaces API should also be possible](https://www.digitalocean.com/docs/kubernetes/).
 
 ## Access Pod/Container
 
