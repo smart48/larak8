@@ -476,3 +476,9 @@ Normally an Nginx Ingress deployment on Digital Ocean can be done with `kubectl 
 A[Read Write Many Setup at DO](https://www.digitalocean.com/community/tutorials/how-to-set-up-readwritemany-rwx-persistent-volumes-with-nfs-on-digitalocean-kubernetes) is possible with an NFS server so you can share data across Droplets or Nodes. This setup is not used in our current deployment.
 
 _DigitalOcean’s default Block Storage CSI solution is unable to support mounting one block storage volume to many Droplets simultaneously. This means that this is a ReadWriteOnce (RWO) solution, since the volume is confined to one node. The Network File System (NFS) protocol, on the other hand, does support exporting the same share to many consumers. This is called ReadWriteMany (RWX), because many nodes can mount the volume as read-write. We can therefore use an NFS server within our cluster to provide storage that can leverage the reliable backing of DigitalOcean Block Storage with the flexibility of NFS shares._
+
+## Queues and Schedule
+
+_Queues allow you to defer the processing of a time consuming task, such as sending an email, until a later time._
+
+_In the past, you may have generated a Cron entry for each task you needed to schedule on your server. However, this can quickly become a pain, because your task schedule is no longer in source control and you must SSH into your server to add additional Cron entries. Laravel's command scheduler allows you to fluently and expressively define your command schedule within Laravel itself._

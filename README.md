@@ -9,7 +9,7 @@ Kubernetes Deployment of Dockerized Laravel application at Digital Ocean. This d
 - code volume
 - persistent volume container (pcv)
 - autoscaler
-- cron job with scheduler
+- cron job with scheduler (multiple cronjobs)
 
 We still need to work on:
 
