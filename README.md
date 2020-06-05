@@ -4,10 +4,12 @@ Kubernetes Deployment of Dockerized Laravel application at Digital Ocean. This d
 
 - php fpm deployment
 - nginx deployment
-- load balancer service
-- cron job with scheduler
 - horizon deployment
+- migrations (will probably be removed)
 - code volume
+- persistent volume container (pcv)
+- autoscaler
+- cron job with scheduler
 
 We still need to work on:
 
