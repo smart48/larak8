@@ -11,7 +11,7 @@ spec:
       restartPolicy: Never
       containers:
         - name: laravel
-          image: smart48/smt-horizon:latest
+          image: #CONTAINER
           envFrom:
             - configMapRef:
                 name: laravel-envvars

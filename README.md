@@ -5,14 +5,14 @@ Kubernetes Deployment of Dockerized Laravel application at Digital Ocean. This d
 - php fpm deployment
 - nginx deployment
 - load balancer service
-- cron job
+- cron job with scheduler
 - horizon deployment
 - code volume
 
 We still need to work on:
 
 1. Workspace to take care of `php artisan` tasks,
-2. PHP Worker for running supervisor and
+2. PHP Worker for running supervisor for queue and scheduler - may not be needed
 3. rework the existing ones some more.
 
 
