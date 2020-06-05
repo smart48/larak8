@@ -1,7 +1,7 @@
 # Notes
 
 
-Notes on issues encountered setting up this deployment.
+Notes on issues encountered setting up this deployment. Also notes with background stories on usage of load balancers and Nginx ingresses, volumes and such.
 
 ## Local Docker on OSX
 
@@ -448,3 +448,31 @@ data:
 ```
 
 [Kubernetes Secrets SO thread](https://stackoverflow.com/questions/33478555/kubernetes-equivalent-of-env-file-in-docker?rq=1)
+
+### Load Balancer
+
+_If you want to directly expose a service, this is the default method. All traffic on the port you specify will be forwarded to the service. There is no filtering, no routing, etc. This means you can send almost any kind of traffic to it, like HTTP, TCP, UDP, Websockets, gRPC, or whatever._
+
+### Nginx Ingress
+
+Nginx Ingress can do all a load balancer can and more. It is not a service but a router routing to services which could be separate nginx services representing CNAMES or ANAMEs
+
+To run it on minikube use `minikube addons enable ingress`
+
+_Unlike all the above examples, Ingress is actually NOT a type of service. Instead, it sits in front of multiple services and act as a “smart router” or entrypoint into your cluster._
+
+_DigitalOcean block storage is only mounted to a single node, so you will set the accessModes to ReadWriteOnce._
+
+_Kubernetes Ingresses allow you to flexibly route traffic from outside your Kubernetes cluster to Services inside of your cluster. This is accomplished using Ingress Resources, which define rules for routing HTTP and HTTPS traffic to Kubernetes Services, and Ingress Controllers, which implement the rules by load balancing traffic and routing it to the appropriate backend Services._
+
+Normally an Nginx Ingress deployment on Digital Ocean can be done with `kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-0.32.0/deploy/static/provider/do/deploy.yaml` We however set this up in provisioning package.
+
+[node ports, load balancers and nginx ingress](https://medium.com/google-cloud/kubernetes-nodeport-vs-loadbalancer-vs-ingress-when-should-i-use-what-922f010849e0)
+[do ingress setup](https://www.digitalocean.com/community/tutorials/how-to-set-up-an-nginx-ingress-with-cert-manager-on-digitalocean-kubernetes#step-1-%E2%80%94-setting-up-dummy-backend-services)
+[Nginx Ingress Deploy](https://kubernetes.github.io/ingress-nginx/deploy/)
+
+### Read Write Many Setup with NFS Sserver
+
+A[Read Write Many Setup at DO](https://www.digitalocean.com/community/tutorials/how-to-set-up-readwritemany-rwx-persistent-volumes-with-nfs-on-digitalocean-kubernetes) is possible with an NFS server so you can share data across Droplets or Nodes. This setup is not used in our current deployment.
+
+_DigitalOcean’s default Block Storage CSI solution is unable to support mounting one block storage volume to many Droplets simultaneously. This means that this is a ReadWriteOnce (RWO) solution, since the volume is confined to one node. The Network File System (NFS) protocol, on the other hand, does support exporting the same share to many consumers. This is called ReadWriteMany (RWX), because many nodes can mount the volume as read-write. We can therefore use an NFS server within our cluster to provide storage that can leverage the reliable backing of DigitalOcean Block Storage with the flexibility of NFS shares._
