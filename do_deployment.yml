@@ -56,16 +56,3 @@ spec:
               mountPath: /code
             - name: config
               mountPath: /etc/nginx/conf.d
----
-apiVersion: autoscaling/v1
-kind: HorizontalPodAutoscaler
-metadata:
-  name: web
-spec:
-  scaleTargetRef:
-    apiVersion: apps/v1
-    kind: Deployment
-    name: web
-  minReplicas: 2
-  maxReplicas: 20
-  targetCPUUtilizationPercentage: 50
