@@ -128,7 +128,7 @@ and to check it has been created and is running we can use `kubectl get pv`
 
 ### Digital Ocean Spaces
 
-Spaces usage for storage [via the Spaces API should also be possible](https://www.digitalocean.com/docs/kubernetes/).
+Spaces usage for storage [via the Spaces API should also be possible](https://www.digitalocean.com/docs/kubernetes/). It can be done with [Container Storage Interface (CSI) for S3](https://github.com/ctrox/csi-s3)
 
 ## Access Pod/Container
 
