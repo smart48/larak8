@@ -101,6 +101,10 @@ _If you want to directly expose a service, this is the default method. All traff
 
 ### Nginx Ingress
 
+Nginx Ingress can do all a load balancer can and more. It is not a service but a router routing to services which could be separate nginx services representing CNAMES or ANAMEs
+
+To run it on minikube use `minikube addons enable ingress`
+
 _Unlike all the above examples, Ingress is actually NOT a type of service. Instead, it sits in front of multiple services and act as a “smart router” or entrypoint into your cluster._
 
 _Kubernetes Ingresses allow you to flexibly route traffic from outside your Kubernetes cluster to Services inside of your cluster. This is accomplished using Ingress Resources, which define rules for routing HTTP and HTTPS traffic to Kubernetes Services, and Ingress Controllers, which implement the rules by load balancing traffic and routing it to the appropriate backend Services._
