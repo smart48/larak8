@@ -2,7 +2,7 @@
 apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
-  namespace: laravel
+  namespace: smt-prod
   name: horizon-worker
 spec:
   replicas: 3

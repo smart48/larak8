@@ -2,7 +2,7 @@
 apiVersion: autoscaling/v1
 kind: HorizontalPodAutoscaler
 metadata:
-  namespace: smt
+  namespace: smt-prod
   name: autoscaler
 spec:
   scaleTargetRef:

@@ -2,7 +2,7 @@
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
-  namespace: smt
+  namespace: smt-prod
   name: cronjob
 spec:
   schedule: "*/1 * * * *"
