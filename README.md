@@ -18,21 +18,39 @@ We still need to work on:
 3. rework the existing ones some more.
 
 
+## Namespace
+
+To create a namespace based on file you can use this:
+
+```
+kubectl apply -f ./namespace.yaml
+```
+
+Then this namespace can be used instead of default to launch your pods into.
+
 ## Deployments
 
-Option to run PHP FPM or Laravel App with Nginx and Load Balancer in one deployment. Nginx we use a standard base image and add configuration using the image. PHP FPM is a custom image wit all the needs of a Laravel application. The web deployment uses `HorizontalPodAutoscaler` as well which we may remove again as we do things during provisoning already.
+Options to run:
 
+- Laravel Horizon in first deployment, 
+- PHP FPM or Laravel App with Nginx in web deployment,
+- Worspace in third
 
-### Local vs DO 
+### Web Deployment
+
+Nginx we use a standard base image and add configuration using the image. PHP FPM is a custom image wit all the needs of a Laravel application. 
+
+### Workspace
+
+To be added
+
+**NB** Local vs DO 
 
 Local deployment uses a basic volume loading from the host whereas the DO deployment uses a persisent volume storage using the DO CSI plugin
-### PHP Deployment
 
-We are using a custom PHP FPM image. Laradock image still in this repository, but not in use.
+### Auto Scaler
 
-### Nginx Deployment
-
-For NGinx the same as for PHP FPM. We are using a custom image now. We may change this in the future.
+Autoscaler uses `HorizontalPodAutoscaler` as well which we may remove again as we do things during provisoning already.
 
 ### Cronjob
 
