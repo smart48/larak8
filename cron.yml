@@ -3,7 +3,7 @@ apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
   namespace: smt-prod
-  name: cronjob
+  name: php-worker
 spec:
   schedule: "*/1 * * * *"
   jobTemplate:
@@ -12,6 +12,6 @@ spec:
         spec:
           restartPolicy: OnFailure
           containers:
-            - name: laravel
-              image: ##CONTAINER_IMAGE##
+            - name: php-worker
+              image: smart48/smt-php-worker:latest
               command: ["/usr/local/bin/php", "artisan", "schedule:run"]
