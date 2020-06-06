@@ -302,6 +302,23 @@ web-fbd58c4c7-snzdx   2/2     Running   0          21s
 ```
 ## Pods + Containers
 
+
+_In other words, if you need to run a single container in Kubernetes, then you need to create a Pod for that container. At the same time, a Pod can contain more than one container, usually because these containers are relatively tightly coupled. How tightly coupled?  Well, think of it this way: the containers in a pod represent processes that would have run on the same server in a pre-container world._
+
+[Mirantis](https://www.mirantis.com/blog/multi-container-pods-and-container-communication-in-kubernetes/)
+
+
+### Meta Data
+
+_Every object kind MUST have the following metadata in a nested object field called "metadata":namespace: a namespace is a DNS compatible label that objects are subdivided into. The default namespace is 'default'. See the namespace docs for more._
+
+[meta data docs](https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#metadata)
+
+
+### Pod related commands
+
+Describe is used to get basic information about your pod:
+
 ```
 kubectl describe pod/web-84c8f5c8df-5bb7t -n default
 Name:         web-84c8f5c8df-5bb7t
