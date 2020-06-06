@@ -48,7 +48,8 @@ Nginx we use a standard base image and add configuration using the image. PHP FP
 
 #### Workspace
 
-To be added
+Workspace to run PHP CLI commands including `php artisan` commands, but also `git`, `vim` and `nano`.
+
 
 **NB** Local vs DO 
 
