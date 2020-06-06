@@ -5,9 +5,14 @@ Kubernetes Deployment of Dockerized Laravel application at Digital Ocean. This d
 - php fpm deployment
 - nginx deployment
 - horizon deployment
+- workspace deployment
+
+
 - migrations (will probably be removed)
+
 - code volume
 - persistent volume container (pcv)
+
 - autoscaler
 - cron job with scheduler (multiple cronjobs)
 
@@ -30,23 +35,29 @@ Then this namespace can be used instead of default to launch your pods into.
 
 ## Deployments
 
-Options to run:
+Options to run these all in one pod and one web deployment:
 
-- Laravel Horizon in first deployment, 
-- PHP FPM or Laravel App with Nginx in web deployment,
-- Worspace in third
+- Laravel Horizon 
+- PHP FPM 
+- Workspace
+- Horizon
 
-### Web Deployment
+#### Nginx and PHP FPM
 
 Nginx we use a standard base image and add configuration using the image. PHP FPM is a custom image wit all the needs of a Laravel application. 
 
-### Workspace
+#### Workspace
 
 To be added
 
 **NB** Local vs DO 
 
 Local deployment uses a basic volume loading from the host whereas the DO deployment uses a persisent volume storage using the DO CSI plugin
+
+#### Horizon
+
+In progress based on code by [Lorenzo Asiello](https://lorenzo.aiello.family/running-laravel-on-kubernetes/) but adjusted to work with starter command properly.
+
 
 ### Auto Scaler
 
@@ -56,9 +67,6 @@ Autoscaler uses `HorizontalPodAutoscaler` as well which we may remove again as w
 
 There is a [Kubernetes Cronjob](https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/) we can use for Laravel schedules setup. Supervisor is still needed it seems though so we will keep the PHP Worker for now.
 
-### Horizon
-
-In progress based on code by [Lorenzo Asiello](https://lorenzo.aiello.family/running-laravel-on-kubernetes/) but adjusted to work with starter command properly.
 
 ## Kubernetes Deployment
 

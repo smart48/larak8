@@ -57,3 +57,29 @@ spec:
               mountPath: /code
             - name: config
               mountPath: /etc/nginx/conf.d
+        - name: workspace
+          image: smart48/smt-workspace:latest
+          ports:
+            - containerPort: 22
+          volumeMounts:
+            - name: code
+              mountPath: /code
+        - name: php worker
+          image: smart48/smt-php-worker:latest
+          ports:
+            - containerPort: 9376
+          volumeMounts:
+            - name: code
+              mountPath: /code
+        - name: laravel horizon
+          image: smart48/smt-laravel-horizon:latest
+          ports:
+            - containerPort: 9377
+          volumeMounts:
+            - name: code
+              mountPath: /code
+          command: ["/usr/local/bin/php", "artisan", "horizon"]
+          lifecycle:
+            preStop:
+            exec:
+              command: ["/usr/local/bin/php", "artisan", "horizon:terminate"]
