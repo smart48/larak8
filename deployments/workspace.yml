@@ -24,7 +24,7 @@ spec:
           path: /code
       containers:
         - name: nginx
-          image: smart48/smt-nginx:latest
+          image: smart48/smt-workspace:latest
           ports:
             - containerPort: 80
           volumeMounts:
