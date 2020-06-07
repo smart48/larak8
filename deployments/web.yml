@@ -24,6 +24,12 @@ spec:
         - name: code
           persistentVolumeClaim:
             claimName: code
+        - name: config
+          configMap:
+              name: nginx-config
+              items:
+              - key: config
+                path: smt.conf
       containers:
         - name: laravel
           image: smart48/smt-laravel:latest
