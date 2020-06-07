@@ -94,7 +94,7 @@ minikube start
 followed by 
 
 ```
-kubectl apply -f local_deployment.yml
+kubectl apply -f local/deployment.yml
 ```
 
 ### DO Deployment
@@ -114,7 +114,7 @@ kubectl --kubeconfig="use_your_kubeconfig.yaml"
 
 For deploying to Digital Ocean we use 
 ```
-kubectl apply -f do_deployment.yml
+kubectl apply -f deployments/web.yml
 ```
 
 as well as the code_volume setup file.
@@ -135,7 +135,7 @@ _The CSI plugin allows you to use DigitalOcean Block Storage with your preferred
 You can run the secret first getting access to DO:
 
 ```
-kubectl apply -f secret.yaml
+kubectl apply -f storage/secret.yaml
 ```
 
 Make sure the secret has your access token added. Once secret has been applied you can run
@@ -152,7 +152,7 @@ to install the actual plugin.
 See `code_volume.yml` in which we set up a Persistent Volume which can be accessed by a `PersistentVolumeClaim` or Persistent Volume Claim(PVC).
 
 ```
-kubectl apply -f code_volume.yaml
+kubectl apply -f storage/pvc.yaml
 ```
 
 and to check it has been created and is running we can use `kubectl get pv`
