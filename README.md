@@ -1,4 +1,4 @@
-# Smart48 Laravel Deploy
+# Smart48 Laravel Kubernetes
 
 Kubernetes Deployment of Dockerized Laravel application at Digital Ocean. This deployment setup is still in alpha stage so cannot be used for production and even testing is limited. We currently have a basic
 
@@ -32,6 +32,45 @@ kubectl apply -f ./namespace.yaml
 ```
 
 Then this namespace can be used instead of default to launch your pods into.
+
+## Services
+
+Data to be added on Nginx Ingress, part of provisioning. We did now however re-add the load balancer services so we can do a set up with Nginx Ingress as that may not be needed all the time or right away.
+
+```
+kubectl apply -f services/load-balancer.yml
+```
+
+## Digital Ocean Storage
+
+The [Digital Ocean storage plugin](https://github.com/digitalocean/csi-digitalocean) to work with block storage using the Container Storage Interface. 
+
+_The CSI plugin allows you to use DigitalOcean Block Storage with your preferred Container Orchestrator._ [url](https://github.com/digitalocean/csi-digitalocean)
+
+You can run the secret first getting access to DO:
+
+```
+kubectl apply -f storage/secret.yaml
+```
+
+Make sure the secret has your access token added. Once secret has been applied you can run
+
+```
+kubectl apply -f https://raw.githubusercontent.com/digitalocean/csi-digitalocean/master/deploy/kubernetes/releases/csi-digitalocean-v1.0.0.yaml
+```
+
+to install the actual plugin.
+
+
+### Persistent Volume
+
+See `code_volume.yml` in which we set up a Persistent Volume which can be accessed by a `PersistentVolumeClaim` or Persistent Volume Claim(PVC).
+
+```
+kubectl apply -f storage/pvc.yaml
+```
+
+and to check it has been created and is running we can use `kubectl get pv`
 
 ## Deployments
 
@@ -120,42 +159,6 @@ kubectl apply -f deployments/web.yml
 as well as the code_volume setup file.
 
 To remove a deployment use `kubectl delete -n default deployment web`
-
-## Services
-
-Data to be added on Nginx Ingress
-
-
-## Digital Ocean Storage
-
-The [Digital Ocean storage plugin](https://github.com/digitalocean/csi-digitalocean) to work with block storage using the Container Storage Interface. 
-
-_The CSI plugin allows you to use DigitalOcean Block Storage with your preferred Container Orchestrator._ [url](https://github.com/digitalocean/csi-digitalocean)
-
-You can run the secret first getting access to DO:
-
-```
-kubectl apply -f storage/secret.yaml
-```
-
-Make sure the secret has your access token added. Once secret has been applied you can run
-
-```
-kubectl apply -f https://raw.githubusercontent.com/digitalocean/csi-digitalocean/master/deploy/kubernetes/releases/csi-digitalocean-v1.0.0.yaml
-```
-
-to install the actual plugin.
-
-
-### Persistent Volume
-
-See `code_volume.yml` in which we set up a Persistent Volume which can be accessed by a `PersistentVolumeClaim` or Persistent Volume Claim(PVC).
-
-```
-kubectl apply -f storage/pvc.yaml
-```
-
-and to check it has been created and is running we can use `kubectl get pv`
 
 
 ### Digital Ocean Spaces
