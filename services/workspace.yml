@@ -9,4 +9,4 @@ spec:
     - protocol: TCP
       port: 2222
       # targetport is the internal port where traffic is sent to
-      targetPort: 9376
+      targetPort: 22
