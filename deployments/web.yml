@@ -36,33 +36,6 @@ spec:
           volumeMounts:
             - name: code
               mountPath: /code
-          initContainers:
-            - name: install
-              image: busybox
-              volumeMounts:
-                - name: code
-                  mountPath: /code
-              command:
-                - wget
-                - "-O"
-                - "/code/index.php"
-                - https://raw.githubusercontent.com/do-community/php-kubernetes/master/index.php   
-          ports:
-            - containerPort: 9000
-          resources:
-            requests:
-              cpu: 250m
-            limits:
-              cpu: 500m
-        - name: nginx
-          image: smart48/smt-nginx:latest
-          ports:
-            - containerPort: 80
-          volumeMounts:
-            - name: code
-              mountPath: /code
-            - name: config
-              mountPath: /etc/nginx/conf.d
         # Workspace for Artisan, PHP CLI
         - name: workspace
           image: smart48/smt-workspace:latest
@@ -82,5 +55,36 @@ spec:
           command: ["/usr/local/bin/php", "artisan", "horizon"]
           lifecycle:
             preStop:
-            exec:
-              command: ["/usr/local/bin/php", "artisan", "horizon:terminate"]
+              exec:
+                command: ["/usr/local/bin/php", "artisan", "horizon:terminate"]
+        - name: nginx
+          image: smart48/smt-nginx:latest
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: code
+              mountPath: /code
+            - name: config
+              mountPath: /etc/nginx/conf.d
+      # Init Container to download code from apt_repository
+      # We may not need this using port 2222 on Workspace and PHP Deployer
+      initContainers:
+        - name: install
+          image: busybox
+          volumeMounts:
+            - name: code
+              mountPath: /code
+          command:
+            - wget
+            - "-O"
+            - "/code/index.php"
+            - https://raw.githubusercontent.com/do-community/php-kubernetes/master/index.php   
+          ports:
+            - containerPort: 9000
+          resources:
+            requests:
+              cpu: 250m
+            limits:
+              cpu: 500m
+        
+      
