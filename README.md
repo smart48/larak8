@@ -23,12 +23,58 @@ We still need to work on:
 3. rework the existing ones some more.
 
 
+## Kubectl Checkup
+
+```
+kubectl version --client
+Client Version: version.Info{Major:"1", Minor:"18", GitVersion:"v1.18.3", GitCommit:"2e7996e3e2712684bc73f0dec0200d64eec7fe40", GitTreeState:"clean", BuildDate:"2020-05-21T14:51:23Z", GoVersion:"go1.14.3", Compiler:"gc", Platform:"darwin/amd64"}
+```
+
+Start minikube for local work with `minikube start` . If you set up config:
+
+```
+cat ~/.kube/config 
+apiVersion: v1
+clusters:
+- cluster:
+    certificate-authority: /Users/jasper/.minikube/ca.crt
+    server: https://127.0.0.1:32768
+  name: minikube
+contexts:
+- context:
+    cluster: minikube
+    user: minikube
+  name: minikube
+current-context: minikube
+kind: Config
+preferences: {}
+users:
+- name: minikube
+  user:
+    client-certificate: /Users/jasper/.minikube/profiles/minikube/client.crt
+    client-key: /Users/jasper/.minikube/profiles/minikube/client.key
+```
+to work with your remotely set up Kubernetes cluster and you want to use that you do that. Example given here only shows local Kube setup. The `kubectl config view --minify` or `kubectl config current-context` shows current context. To show all use `kubectl config get-contexts` . 
+
+Once Minikube is up you can do a quick check
+
+```
+kubectl cluster-info     
+Kubernetes master is running at https://127.0.0.1:32768
+KubeDNS is running at https://127.0.0.1:32768/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
+
+To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
+```
+
+You can also do `kubectl cluster-info dump` but that is a long story to go through and only needed occasionaly.
+
+
 ## Namespace
 
 To create a namespace based on file you can use this:
 
 ```
-kubectl apply -f ./namespace.yaml
+kubectl apply -f ./namespace.yml
 ```
 
 Then this namespace can be used instead of default to launch your pods into.

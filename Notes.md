@@ -499,3 +499,10 @@ _DigitalOcean’s default Block Storage CSI solution is unable to support mounti
 _Queues allow you to defer the processing of a time consuming task, such as sending an email, until a later time._
 
 _In the past, you may have generated a Cron entry for each task you needed to schedule on your server. However, this can quickly become a pain, because your task schedule is no longer in source control and you must SSH into your server to add additional Cron entries. Laravel's command scheduler allows you to fluently and expressively define your command schedule within Laravel itself._
+
+## Deployment issues
+
+```
+kubectl apply -f deployments/web.yml
+error: error validating "deployments/web.yml": error validating data: [ValidationError(Deployment.spec.template.spec.containers[0]): unknown field "initContainers" in io.k8s.api.core.v1.Container, ValidationError(Deployment.spec.template.spec.containers[3].lifecycle): unknown field "exec" in io.k8s.api.core.v1.Lifecycle]; if you choose to ignore these errors, turn validation off with --validate=false
+```
