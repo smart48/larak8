@@ -4,6 +4,7 @@ kind: Deployment
 metadata:
   name: localweb
 spec:
+  namespace: smt-local
   replicas: 3
   selector:
     matchLabels:
