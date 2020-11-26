@@ -116,7 +116,9 @@ See `code_volume.yml` in which we set up a Persistent Volume which can be access
 kubectl apply -f storage/pvc.yml
 ```
 
-and to check it has been created and is running we can use `kubectl get pv`
+to use the storage for local testing apply the one in local directory `kubectl apply -f local/pvc.yml`
+
+and to check it has been created and is running we can use `kubectl get pv` and to delete all (dangerous) use `kubectl delete pvc --all`
 
 ## Deployments
 
