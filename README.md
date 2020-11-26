@@ -113,7 +113,7 @@ to install the actual plugin.
 See `code_volume.yml` in which we set up a Persistent Volume which can be accessed by a `PersistentVolumeClaim` or Persistent Volume Claim(PVC).
 
 ```
-kubectl apply -f storage/pvc.yaml
+kubectl apply -f storage/pvc.yml
 ```
 
 and to check it has been created and is running we can use `kubectl get pv`
@@ -137,9 +137,15 @@ kubectl apply -f configs/nginx_configMap.yaml
 
 ### Web Deployment
 
+Do run the web deployment do a 
+
 ```
 kubectl apply -f deployments/web.yml
 ```
+
+See more instructions further below on check as wel as the notes.
+
+**NB** Persistent Volume Claims do need to be up and running!
 
 #### Nginx and PHP FPM
 
@@ -182,6 +188,18 @@ followed by
 kubectl apply -f local/deployment.yml
 ```
 
+and to see the deployment up and running:
+
+```
+kubectl get deployments --all-namespaces
+NAMESPACE              NAME                        READY   UP-TO-DATE   AVAILABLE   AGE
+kube-system            coredns                     2/2     2            2           176d
+kubernetes-dashboard   dashboard-metrics-scraper   1/1     1            1           176d
+kubernetes-dashboard   kubernetes-dashboard        1/1     1            1           176d
+smt-prod               web                         0/2     2            0           35m
+```
+
+And you can use `kubectl get pods --all-namespaces` to check running pods
 ### DO Deployment
 
 To get the config
@@ -242,3 +260,4 @@ And use `kubectl exec -it web-84c8f5c8df-b9hhd -c nginx -- /bin/bash` to pick a 
 - [Bill Willson](https://github.com/BillWilson/laravel-k8s-demo/)
 - [Kubernetes Cheatsheets](https://kubernetes.io/docs/reference/kubectl/cheatsheet/)
 - [Digital Ocean how to deploy a PHP application](https://www.digitalocean.com/community/tutorials/how-to-deploy-a-php-application-with-kubernetes-on-ubuntu-16-04)
+- [Learning K8 Tutorial](https://learnk8s.io/blog/kubernetes-deploy-laravel-the-easy-way)

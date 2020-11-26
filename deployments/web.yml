@@ -32,6 +32,7 @@ spec:
                 path: smt.conf
       containers:
         - name: laravel
+          # If you don't specify a registry hostname, Kubernetes assumes that you mean the Docker public registry.
           image: smart48/smt-laravel:latest
           volumeMounts:
             - name: code
