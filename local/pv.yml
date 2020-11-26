@@ -3,7 +3,7 @@ kind: PersistentVolume
 metadata:
   name: code-pv
 spec:
-  storageClassName: "do-block-storage"
+  storageClassName: ""
   claimRef:
     name: code-pvc
-    namespace: smt-prod
+    namespace: smt-local
