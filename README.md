@@ -121,7 +121,7 @@ https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler/cloudpro
 
 Autoscaler uses `HorizontalPodAutoscaler` as well which we may remove again as we do things during provisoning already.
 
-### Cronjob
+### DO Cronjob / PHP Worker
 
 There is a [Kubernetes Cronjob](https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/) we can use for Laravel schedules setup. Supervisor is still needed it seems though so we will keep the PHP Worker for now.
 
@@ -139,7 +139,7 @@ minikube start
 To create a namespace based on file you can use this:
 
 ```
-kubectl apply -f ./namespace.yml
+kubectl apply -f local/namespace.yml
 ```
 
 Then this namespace can be used instead of default to launch your pods into.
