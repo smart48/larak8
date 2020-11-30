@@ -552,3 +552,29 @@ _In the past, you may have generated a Cron entry for each task you needed to sc
 kubectl apply -f deployments/web.yml
 error: error validating "deployments/web.yml": error validating data: [ValidationError(Deployment.spec.template.spec.containers[0]): unknown field "initContainers" in io.k8s.api.core.v1.Container, ValidationError(Deployment.spec.template.spec.containers[3].lifecycle): unknown field "exec" in io.k8s.api.core.v1.Lifecycle]; if you choose to ignore these errors, turn validation off with --validate=false
 ```
+
+
+## Minikube Ingress issues
+
+
+```
+minikube addons enable ingress
+💡  Due to docker networking limitations on darwin, ingress addon is not supported for this driver.
+Alternatively to use this addon you can use a vm-based driver:
+
+  'minikube start --vm=true'
+
+To track the update on this work in progress feature please check:
+https://github.com/kubernetes/minikube/issues/7332
+```
+
+This
+
+```
+minikube config set vm-driver hyperkit
+minikube delete
+minikube start
+minikube addons enable ingress
+```
+
+could help but that is not ideal.
