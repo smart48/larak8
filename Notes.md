@@ -600,3 +600,18 @@ nameserver 127.0.0.1
 ```
 
 and a total restart of dnsmasq. Only now dnsmaq, nginx and php are running as root which is not ideal.
+
+
+## Check Deployments  & Pods
+and to see the deployment up and running:
+
+```
+kubectl get deployments --all-namespaces
+NAMESPACE              NAME                        READY   UP-TO-DATE   AVAILABLE   AGE
+kube-system            coredns                     2/2     2            2           176d
+kubernetes-dashboard   dashboard-metrics-scraper   1/1     1            1           176d
+kubernetes-dashboard   kubernetes-dashboard        1/1     1            1           176d
+smt-prod               web                         0/2     2            0           35m
+```
+
+And you can use `kubectl get pods --all-namespaces` to check running pods

@@ -186,20 +186,6 @@ and to check it has been created and is running we can use `kubectl get pv` and 
 kubectl apply -f local/deployment.yml
 ```
 
-and to see the deployment up and running:
-
-```
-kubectl get deployments --all-namespaces
-NAMESPACE              NAME                        READY   UP-TO-DATE   AVAILABLE   AGE
-kube-system            coredns                     2/2     2            2           176d
-kubernetes-dashboard   dashboard-metrics-scraper   1/1     1            1           176d
-kubernetes-dashboard   kubernetes-dashboard        1/1     1            1           176d
-smt-prod               web                         0/2     2            0           35m
-```
-
-And you can use `kubectl get pods --all-namespaces` to check running pods
-
-
 
 ## Resources
 
