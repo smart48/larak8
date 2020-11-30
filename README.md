@@ -79,36 +79,18 @@ kubectl apply -f ./namespace.yml
 
 Then this namespace can be used instead of default to launch your pods into.
 
-## Services
+## DigitalOcean Ingress
 
-Data to be added on Nginx Ingress, part of provisioning. We did now however re-add the load balancer services so we can do a set up with Nginx Ingress as that may not be needed all the time or right away.
+To install Ingress Nginx Kubernetes uses this official file for DigitalOcean setups:
+`https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.41.2/deploy/static/provider/scw/deploy.yaml`
 
-```
-kubectl apply -f services/load-balancer.yml
-```
+using `kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.41.2/deploy/static/provider/scw/deploy.yaml`
 
-## Digital Ocean Storage
+We have added a copy of this to `deployments/ingress-nginx`
 
-The [Digital Ocean storage plugin](https://github.com/digitalocean/csi-digitalocean) to work with block storage using the Container Storage Interface. 
+At https://marketplace.digitalocean.com/apps/nginx-ingress-controller they also mention the Nginx Ingress controller setup. This could be used after having set up the Ingress Nginx (Controller) using the above mentioned yaml file.
 
-_The CSI plugin allows you to use DigitalOcean Block Storage with your preferred Container Orchestrator._ [url](https://github.com/digitalocean/csi-digitalocean)
-
-You can run the secret first getting access to DO:
-
-```
-kubectl apply -f storage/secret.yaml
-```
-
-Make sure the secret has your access token added. Once secret has been applied you can run
-
-```
-kubectl apply -f https://raw.githubusercontent.com/digitalocean/csi-digitalocean/master/deploy/kubernetes/releases/csi-digitalocean-v1.0.0.yaml
-```
-
-to install the actual plugin.
-
-
-### DigitalOcean Persistent Volume
+### DigitalOcean Storage
 
 See https://www.digitalocean.com/community/tutorials/how-to-deploy-a-php-application-with-kubernetes-on-ubuntu-16-04#step-2-—-installing-the-digitalocean-storage-plug-in
 
@@ -117,7 +99,11 @@ See `storage/pvc.yml` in which we set up a Persistent Volume which can be access
 
 #### DO Storage Plugin Addition
 
-To work with storage on Digital Ocean we first need to install a plugin. For that we need to add a secret to be able to connect to DO and get this done:
+To work with storage on Digital Ocean we first need to install a plugin. AS DO states at https://www.digitalocean.com/docs/kubernetes/ 
+
+_We recommend against using HostPath volumes because nodes are frequently replaced and all data stored on the nodes will be lost._
+
+For that we need to add a secret to be able to connect to DO and get this done:
 
 ```
 kubectl apply -f secret.yaml
@@ -136,6 +122,23 @@ kubectl apply -f storage/pvc.yml
 ```
 
 **NB** A separate Persistent Volume file is not needed here as we work with the DO plugin. For local Minikube setups we do.
+### Local Ingress
+
+Locall you can run an Ingress Nginx as well, but in a slightly different way
+
+https://kubernetes.io/docs/tasks/access-application-cluster/ingress-minikube/
+
+`minikube start`
+
+#### Enable Minikube Nginx Ingres 
+To enable the NGINX Ingress controller, run the following command:
+
+`minikube addons enable ingress`
+Verify that the NGINX Ingress controller is running
+
+`kubectl get pods -n kube-system`
+
+Deploy the Ingress controller using an example: `kubectl create deployment web --image=gcr.io/google-samples/hello-app:1.0`
 ### Local Persistent Volume
 
 to use the storage for local testing apply the one in local directory `kubectl apply -f local/pvc.yml`
