@@ -118,24 +118,17 @@ Local testing of the deployment can be done with Minikube. Also see [Notes](Note
 minikube start
 ```
 
-followed by 
+### Local Namespace
+
+
+To create a namespace based on file you can use this:
 
 ```
-kubectl apply -f local/deployment.yml
+kubectl apply -f ./namespace.yml
 ```
 
-and to see the deployment up and running:
+Then this namespace can be used instead of default to launch your pods into.
 
-```
-kubectl get deployments --all-namespaces
-NAMESPACE              NAME                        READY   UP-TO-DATE   AVAILABLE   AGE
-kube-system            coredns                     2/2     2            2           176d
-kubernetes-dashboard   dashboard-metrics-scraper   1/1     1            1           176d
-kubernetes-dashboard   kubernetes-dashboard        1/1     1            1           176d
-smt-prod               web                         0/2     2            0           35m
-```
-
-And you can use `kubectl get pods --all-namespaces` to check running pods
 ### Local Ingress
 
 Locall you can run an Ingress Nginx as well, but in a slightly different way
@@ -153,6 +146,25 @@ Verify that the NGINX Ingress controller is running
 `kubectl get pods -n kube-system`
 
 Deploy the Ingress controller using an example: `kubectl create deployment web --image=gcr.io/google-samples/hello-app:1.0`
+
+### Local Deployments 
+```
+kubectl apply -f local/deployment.yml
+```
+
+and to see the deployment up and running:
+
+```
+kubectl get deployments --all-namespaces
+NAMESPACE              NAME                        READY   UP-TO-DATE   AVAILABLE   AGE
+kube-system            coredns                     2/2     2            2           176d
+kubernetes-dashboard   dashboard-metrics-scraper   1/1     1            1           176d
+kubernetes-dashboard   kubernetes-dashboard        1/1     1            1           176d
+smt-prod               web                         0/2     2            0           35m
+```
+
+And you can use `kubectl get pods --all-namespaces` to check running pods
+
 ### Local Persistent Volume
 
 to use the storage for local testing apply the one in local directory `kubectl apply -f local/pvc.yml`
