@@ -69,23 +69,23 @@ spec:
               mountPath: /etc/nginx/conf.d
       # Init Container to download code from apt_repository
       # We may not need this using port 2222 on Workspace and PHP Deployer
-      initContainers:
-        - name: install
-          image: busybox
-          volumeMounts:
-            - name: code
-              mountPath: /code
-          command:
-            - wget
-            - "-O"
-            - "/code/index.php"
-            - https://raw.githubusercontent.com/do-community/php-kubernetes/master/index.php   
-          ports:
-            - containerPort: 9000
-          resources:
-            requests:
-              cpu: 250m
-            limits:
-              cpu: 500m
+      # initContainers:
+      #   - name: install
+      #     image: busybox
+      #     volumeMounts:
+      #       - name: code
+      #         mountPath: /code
+      #     command:
+      #       - wget
+      #       - "-O"
+      #       - "/code/index.php"
+      #       - https://raw.githubusercontent.com/do-community/php-kubernetes/master/index.php   
+      #     ports:
+      #       - containerPort: 9000
+      #     resources:
+      #       requests:
+      #         cpu: 250m
+      #       limits:
+      #         cpu: 500m
         
       
