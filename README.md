@@ -22,6 +22,18 @@ We still need to work on:
 
 
 ## Digital Ocean Setup
+
+We assume you set up your cluster and recommend using our [Terraform setup](https://github.com/smart48/smt-provision) to set things up your way and with managed databases and DO Spaces for status. You can however use the DigitalOcean UI which is very nice too.
+
+https://www.digitalocean.com/docs/kubernetes/how-to/connect-to-cluster/
+
+_To configure authentication from the command line, use the following command, substituting the name of your cluster._
+
+`doctl kubernetes cluster kubeconfig save use_your_cluster_name`
+
+_This downloads the kubeconfig for the cluster, merges it with any existing configuration from ~/.kube/config, and automatically handles the authentication token or certificate._
+
+To use a sepcific config to use DO K8 configuration use `kubectl config use-context do-sfo2-example-cluster-01` where you replace the_do-sfo2..._ part by your cluster name.
 ### DigitalOcean Namespace
 
 To create a namespace based on file you can use this:
@@ -114,7 +126,7 @@ kubectl apply -f configs/nginx_configMap.yaml
 
 **NB** Persistent Volume Claims do need to be up and running!
 
-### PHP Worker
+### DO PHP Worker
 
 ```
 kubecttl apply -f deployments/php-worker.yml
