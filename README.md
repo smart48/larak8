@@ -7,17 +7,17 @@ Kubernetes Deployment of Dockerized Laravel application at Digital Ocean. This d
 - nginx deployment
 - horizon deployment
 - workspace deployment
+- php worker
 
 - code volume
 - persistent volume container (pcv)
 
 - autoscaler
-- cron job with scheduler (multiple cronjobs)
 
 We still need to work on:
 
 1. Workspace to take care of `php artisan` tasks,
-2. PHP Worker for running supervisor for queue and scheduler - may not be needed
+2. PHP Worker for running supervisor for queue and scheduler
 3. rework the existing ones some more.
 
 
@@ -114,16 +114,16 @@ kubectl apply -f configs/nginx_configMap.yaml
 
 **NB** Persistent Volume Claims do need to be up and running!
 
+### PHP Worker
 
+```
+kubecttl apply -f deployments/php-worker.yml
+```
 ### DO Auto Scaler
 
 https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler/cloudprovider/digitalocean
 
 Autoscaler uses `HorizontalPodAutoscaler` as well which we may remove again as we do things during provisoning already.
-
-### DO Cronjob / PHP Worker
-
-There is a [Kubernetes Cronjob](https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/) we can use for Laravel schedules setup. Supervisor is still needed it seems though so we will keep the PHP Worker for now.
 
 
 ## Local setup
