@@ -47,11 +47,15 @@ At https://marketplace.digitalocean.com/apps/nginx-ingress-controller they also 
 
 There is however also an option to do a one click installation. See suggestion at https://github.com/jittagornp/kubernetes-demo and https://marketplace.digitalocean.com/apps/nginx-ingress-controller
 
+_Note: The NGINX Ingress Controller 1-Click App also includes a $10/month DigitalOcean Load Balancer to ensure that ingress traffic is distributed across all of the nodes in your Kubernetes cluster._
+
+_NB_ Load balancer as separate deployment made an example as it is included in one click installation and or Nginx installation via DO script.
 #### DO Kubernetes Monitoring Stack
 
 There is also a DigitalOcean one click install monitoring stack using Prometheus, Grafana, and metrics-server for deployment onto DigitalOcean Kubernetes clusters.
 
 https://marketplace.digitalocean.com/apps/kubernetes-monitoring-stack
+
 
 ### DigitalOcean Storage
 
@@ -131,7 +135,6 @@ minikube start
 ```
 
 ### Local Namespace
-
 
 To create a namespace based on file you can use this:
 
