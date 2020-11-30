@@ -577,4 +577,4 @@ minikube start
 minikube addons enable ingress
 ```
 
-could help but that is not ideal.
+could help but that is not idea as we wanted to use Docker as driver and this driver does not cause issues working with Laravel Valet's DNSMasq
