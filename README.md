@@ -159,6 +159,13 @@ Verify that the NGINX Ingress controller is running
 
 Deploy the Ingress controller using an example: `kubectl create deployment web --image=gcr.io/google-samples/hello-app:1.0`
 
+### Local Persistent Volume
+
+to use the storage for local testing apply the one in local directory `kubectl apply -f local/pvc.yml`
+
+and to check it has been created and is running we can use `kubectl get pv` and to delete all (dangerous) use `kubectl delete pvc --all`
+
+*Notes on Persistent volume and testing still needed*
 ### Local Deployments 
 ```
 kubectl apply -f local/deployment.yml
@@ -176,12 +183,6 @@ smt-prod               web                         0/2     2            0       
 ```
 
 And you can use `kubectl get pods --all-namespaces` to check running pods
-
-### Local Persistent Volume
-
-to use the storage for local testing apply the one in local directory `kubectl apply -f local/pvc.yml`
-
-and to check it has been created and is running we can use `kubectl get pv` and to delete all (dangerous) use `kubectl delete pvc --all`
 
 
 
