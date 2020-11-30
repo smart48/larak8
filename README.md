@@ -108,13 +108,35 @@ kubectl apply -f https://raw.githubusercontent.com/digitalocean/csi-digitalocean
 to install the actual plugin.
 
 
-### Persistent Volume
+### DigitalOcean Persistent Volume
 
-See `code_volume.yml` in which we set up a Persistent Volume which can be accessed by a `PersistentVolumeClaim` or Persistent Volume Claim(PVC).
+See https://www.digitalocean.com/community/tutorials/how-to-deploy-a-php-application-with-kubernetes-on-ubuntu-16-04#step-2-—-installing-the-digitalocean-storage-plug-in
+
+
+See `storage/pvc.yml` in which we set up a Persistent Volume which can be accessed by a `PersistentVolumeClaim` or Persistent Volume Claim(PVC).
+
+#### DO Storage Plugin Addition
+
+To work with storage on Digital Ocean we first need to install a plugin. For that we need to add a secret to be able to connect to DO and get this done:
+
+```
+kubectl apply -f secret.yaml
+```
+
+You can check the secret using `kubectl -n kube-system get secret digitalocean`. Once that is done you can download the plugin from the Digital Ocean repository:
+
+```
+kubectl apply -f https://raw.githubusercontent.com/digitalocean/csi-digitalocean/master/deploy/kubernetes/releases/csi-digitalocean-v0.3.0.yaml
+```
+
+One that is done we can create our Persistent Volume Claim with the following file application:
 
 ```
 kubectl apply -f storage/pvc.yml
 ```
+
+**NB** A separate Persistent Volume file is not needed here as we work with the DO plugin. For local Minikube setups we do.
+### Local Persistent Volume
 
 to use the storage for local testing apply the one in local directory `kubectl apply -f local/pvc.yml`
 
