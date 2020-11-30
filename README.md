@@ -22,7 +22,7 @@ We still need to work on:
 
 
 ## Digital Ocean Setup
-### Namespace
+### DigitalOcean Namespace
 
 To create a namespace based on file you can use this:
 
@@ -42,6 +42,16 @@ using `kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-ngi
 We have added a copy of this to `deployments/ingress-nginx`
 
 At https://marketplace.digitalocean.com/apps/nginx-ingress-controller they also mention the Nginx Ingress controller setup. This could be used after having set up the Ingress Nginx (Controller) using the above mentioned yaml file.
+
+#### DO One Click  Ingress Nginx
+
+There is however also an option to do a one click installation. See suggestion at https://github.com/jittagornp/kubernetes-demo and https://marketplace.digitalocean.com/apps/nginx-ingress-controller
+
+#### DO Kubernetes Monitoring Stack
+
+There is also a DigitalOcean one click install monitoring stack using Prometheus, Grafana, and metrics-server for deployment onto DigitalOcean Kubernetes clusters.
+
+https://marketplace.digitalocean.com/apps/kubernetes-monitoring-stack
 
 ### DigitalOcean Storage
 
@@ -90,7 +100,7 @@ Options to run these all in one pod and one web deployment:
 
 with `kubectl apply -f deployments/web.yml`
 
-#### configMap
+#### Nginx configMap
 
 A configMap for added Nginx configuration has been added to this repository and should be applied before the deployment is applied:
 
@@ -101,7 +111,9 @@ kubectl apply -f configs/nginx_configMap.yaml
 **NB** Persistent Volume Claims do need to be up and running!
 
 
-### Auto Scaler
+### DO Auto Scaler
+
+https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler/cloudprovider/digitalocean
 
 Autoscaler uses `HorizontalPodAutoscaler` as well which we may remove again as we do things during provisoning already.
 
