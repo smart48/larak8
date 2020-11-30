@@ -577,4 +577,26 @@ minikube start
 minikube addons enable ingress
 ```
 
-could help but that is not idea as we wanted to use Docker as driver and this driver does not cause issues working with Laravel Valet's DNSMasq
+Found https://github.com/kubernetes/minikube/issues/2456#issuecomment-446905595 :
+
+```
+nano /usr/local/etc/dnsmasq.conf
+```
+and add
+
+```
+server=/kube.local/192.168.64.1
+listen-address=127.0.0.1,192.168.64.1
+```
+
+and `valet restart` and then there are nginx , php and dsnmasq errors. It needed
+
+`sudo /etc/resolver/local`
+
+with the addtion of
+```
+port 5354
+nameserver 127.0.0.1
+```
+
+and a total restart of dnsmasq. Only now dnsmaq, nginx and php are running as root which is not ideal.
