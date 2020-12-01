@@ -3,8 +3,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: localweb
-spec:
   namespace: smt-local
+spec:
   replicas: 3
   selector:
     matchLabels:
