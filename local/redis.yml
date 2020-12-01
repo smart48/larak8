@@ -2,6 +2,7 @@ apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
 kind: Deployment
 metadata:
   name: redis
+  namespace: smt-local
 spec:
   selector:
     matchLabels:
@@ -12,7 +13,6 @@ spec:
     metadata:
       labels:
         app: redis
-      namespace: smt-local
     spec:
       containers:
       - image: smart48/smt-redis:latest
@@ -30,7 +30,7 @@ spec:
         args: ["--default-authentication-plugin=redis_native_password"]
         ports:
         - containerPort: 3306
-          name: redis8
+          name: redis
         volumeMounts:
           - name: redis-persistent-storage
             mountPath: /var/lib/redis
