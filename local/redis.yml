@@ -11,7 +11,8 @@ spec:
   template:
     metadata:
       labels:
-        app: redis8
+        app: redis
+      namespace: smt-local
     spec:
       containers:
       - image: smart48/smt-redis:latest
