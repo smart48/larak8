@@ -209,6 +209,9 @@ cascading configurations:
 
 So we did a `minikube delete` and then `minikube start --driver=docker` [tip](https://github.com/kubernetes/minikube/issues/6296)
 
+
+**NB** See later in notes how we did get hypervisor up and running with dnsmasq config changes which also allowed us to run ingress nginx locally on Minikube.
+
 ```
 minikube start --driver=docker
 😄  minikube v1.11.0 on Darwin 10.15.5
@@ -601,6 +604,61 @@ nameserver 127.0.0.1
 
 and a total restart of dnsmasq. Only now dnsmaq, nginx and php are running as root which is not ideal.
 
+This solution failed again as well.
+
+Then I added
+
+```
+server=/kube.local/192.168.64.1
+listen-address=127.0.0.1,192.168.64.1
+```
+
+and ran
+
+```
+sudo launchctl stop homebrew.mxcl.dnsmasq
+sudo launchctl start homebrew.mxcl.dnsmasq
+```
+
+
+And then I checked
+
+```
+brew services list
+Name    Status  User   Plist
+dnsmasq started root   /Library/LaunchDaemons/homebrew.mxcl.dnsmasq.plist
+httpd   stopped
+mariadb started jasper /Users/jasper/Library/LaunchAgents/homebrew.mxcl.mariadb.plist
+nginx   error   root   /Library/LaunchDaemons/homebrew.mxcl.nginx.plist
+php     started root   /Library/LaunchDaemons/homebrew.mxcl.php.plist
+redis   started jasper /Users/jasper/Library/LaunchAgents/homebrew.mxcl.redis.plist
+➜  ~ sudo brew services list
+Name    Status  User Plist
+dnsmasq started root /Library/LaunchDaemons/homebrew.mxcl.dnsmasq.plist
+httpd   stopped
+mariadb started root /Users/jasper/Library/LaunchAgents/homebrew.mxcl.mariadb.plist
+nginx   started root /Library/LaunchDaemons/homebrew.mxcl.nginx.plist
+php     error   root /Library/LaunchDaemons/homebrew.mxcl.php.plist
+redis   started root /Users/jasper/Library/LaunchAgents/homebrew.mxcl.redis.plist
+```
+
+When I tried Chrome and Safari Laravel Valet was still working. And.. in Brave also. So did a minikube restart:
+
+
+```
+➜  smt-deploy git:(main) ✗ minikube stop   
+✋  Stopping "minikube" in hyperkit ...
+🛑  Node "minikube" stopped.
+➜  smt-deploy git:(main) ✗ minikube start  
+😄  minikube v1.11.0 on Darwin 10.15.7
+✨  Using the hyperkit driver based on existing profile
+👍  Starting control plane node minikube in cluster minikube
+🔄  Restarting existing hyperkit VM for "minikube" ...
+🐳  Preparing Kubernetes v1.18.3 on Docker 19.03.8 ...
+🔎  Verifying Kubernetes components...
+🌟  Enabled addons: default-storageclass, ingress, storage-provisioner
+🏄  Done! kubectl is now configured to use "minikube"
+```
 
 ## Check Deployments  & Pods
 and to see the deployment up and running:
