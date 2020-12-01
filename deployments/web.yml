@@ -23,7 +23,7 @@ spec:
       volumes:
         - name: code
           persistentVolumeClaim:
-            claimName: code
+            claimName: code # see storage/pvc.yml name
         - name: config
           configMap:
               name: nginx-config
