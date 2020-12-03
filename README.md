@@ -131,6 +131,11 @@ You can deploy these with:
  kubectl apply -f deployments/workspace.yml
  ```
 
+
+### DO Services
+
+We are using Ingress Inginx as intial access point. We may however need to open up the app as well as workspace to allow access to these from outside the pod.
+
 ### DO Auto Scaler
 
 https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler/cloudprovider/digitalocean
