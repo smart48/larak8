@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: workspace
+  namespace: smt-local
+spec:
+  selector:
+    app: workspace
+  ports:
+    - protocol: TCP
+      port: 2222
+      # targetport is the internal port where traffic is sent to
+      targetPort: 22
