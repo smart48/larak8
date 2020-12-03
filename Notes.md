@@ -673,3 +673,40 @@ smt-prod               web                         0/2     2            0       
 ```
 
 And you can use `kubectl get pods --all-namespaces` to check running pods
+
+
+## Minikube Post Upgrade issues
+
+We updated Minikube to latest to work with Kubernetes 1.19.x... only to realize only 1.18.3 was added. However here an fyi. Post `brew upgrade minikube` you may need to use :
+
+```
+brew link minikube
+```
+
+to fire off commands again.
+
+They did however mention _Kubernetes 1.19.4 is now available. If you would like to upgrade, specify: --kubernetes-version=v1.19.4_
+
+So we did:
+
+```
+minikube start --kubernetes-version=v1.19.4😄  minikube v1.15.1 on Darwin 10.15.7
+✨  Using the hyperkit driver based on existing profile
+👍  Starting control plane node minikube in cluster minikube
+💾  Downloading Kubernetes v1.19.4 preload ...
+    > preloaded-images-k8s-v6-v1.19.4-docker-overlay2-amd64.tar.lz4: 59.73 MiB 
+...
+```
+
+**NB** The `~/.zshrc ` tweaks to work with autocomplete https://docs.brew.sh/Shell-Completion#configuring-completions-in-zsh :
+
+```
+if type brew &>/dev/null; then
+  FPATH=$(brew --prefix)/share/zsh/site-functions:$FPATH
+
+  autoload -Uz compinit
+  compinit
+fi
+```
+
+may not be necessary
