@@ -710,3 +710,17 @@ fi
 ```
 
 may not be necessary
+
+
+## PV Issues
+
+```
+kubectl apply -f local/storage/pv.yml
+The PersistentVolume "code-pv" is invalid: 
+* spec.accessModes: Required value
+* spec.capacity: Required value
+* spec.capacity: Unsupported value: core.ResourceList(nil): supported values: "storage"
+* spec: Required value: must specify a volume type
+```
+
+Needed different setup altogether. See https://github.com/kubernetes/minikube/issues/214 
