@@ -5,6 +5,7 @@ metadata:
   namespace: smt-prod
   name: php-worker
 spec:
+  # not sure if we need schedule here as the image does most
   schedule: "*/1 * * * *"
   jobTemplate:
     spec:
