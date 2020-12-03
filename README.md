@@ -125,7 +125,7 @@ We have multiple deployments to run all containers in one pod
 You can deploy these with:
 
  ```
- kubectl apply -f deployments/web.yml
+ kubectl apply -f deployments/app.yml
  kubectl apply -f deployments/horizon.yml
  kubectl apply -f deployments/php-worker.yml
  kubectl apply -f deployments/workspace.yml
