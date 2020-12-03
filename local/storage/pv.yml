@@ -9,4 +9,6 @@ spec:
   capacity:
     storage: 200Mi
   hostPath:
-    path: /data/code-pv/
+    # minikube is configured to persist files stored under /data/ and a few 
+    # other directories such as /var/lib/minikube in the _vm_
+    path: /data

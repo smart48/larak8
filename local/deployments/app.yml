@@ -19,11 +19,6 @@ spec:
       labels:
         app: web
     spec:
-      volumes:
-        - name: dir
-        # path on the host https://kubernetes.io/docs/concepts/storage/volumes/#hostpath
-          hostPath:
-            path: ~/code/project
       containers:
         - name: laravel
           image: smart48/smt-laravel:latest
@@ -34,7 +29,33 @@ spec:
               cpu: 250m
             limits:
               cpu: 500m
+          volumeMounts:
+          # examples
+          # - name: orientdb-config
+          #   mountPath: /data/orientdb/config
+          # - name: orientdb-databases
+          #   mountPath: /data/orientdb/databases 
+          # - name: orientdb-backup
+          #   mountPath: /data/orientdb/backup
         - name: nginx
           image: smart48/smt-nginx:latest
           ports:
             - containerPort: 9376
+          volumeMounts:
+          # example
+          # - name: orientdb-config
+          #   mountPath: /data/orientdb/config
+      volumes:
+        - name: code-storage
+          persistentVolumeClaim:
+            claimName: code-pv-claim
+        # examples
+        # - name: orientdb-config
+        #   persistentVolumeClaim:
+        #     claimName: orientdb-pv-claim
+        # - name: orientdb-databases
+        #   persistentVolumeClaim:
+        #     claimName: orientdb-pv-claim
+        # - name: orientdb-backup
+        #   persistentVolumeClaim:
+        #     claimName: orientdb-pv-claim

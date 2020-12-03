@@ -76,7 +76,9 @@ ingress-resource   <none>   smart48k8.test   192.168.64.5   80      6m48s
 
 ## Local Persistent Volume
 
-https://minikube.sigs.k8s.io/docs/handbook/persistent_volumes/
+resources:
+- https://minikube.sigs.k8s.io/docs/handbook/persistent_volumes/
+- https://stackoverflow.com/questions/45511339/kubernetes-minikube-with-local-persistent-storage
 
 to use the storage for local testing apply the one in local directory 
 
@@ -84,12 +86,21 @@ _minikube supports PersistentVolumes of type hostPath out of the box. These Pers
 
 _In addition, minikube implements a very simple, canonical implementation of dynamic storage controller that runs alongside its deployment. This manages provisioning of hostPath volumes (rather then via the previous, in-tree hostPath provider)._
 
+### PV
 
-Persistent Volume for only a PVC chosen
+Persistent Volume for only a PVC chosen with in-tree host path:
 
 ```
 kubectl apply -f local/storage/pv.yml
 ```
+
+
+### Persisent volume claim
+
+_...canonical implementation of dynamic storage controller that runs alongside its deployment._
+
+https://platform9.com/blog/tutorial-dynamic-provisioning-of-persistent-storage-in-kubernetes-with-minikube/
+
 
 ```
 kubectl apply -f local/storage/pvc.yml
