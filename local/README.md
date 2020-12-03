@@ -69,7 +69,7 @@ kubectl apply -f local/deployments/app.yml
 
 To run the MySQL database and Redis containers run
 
-````
+```
 kubectl apply -f local/deployments/mysql.yml
 kubectl apply -f local/deployments/redis.yml
 ```

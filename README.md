@@ -30,7 +30,7 @@ _To configure authentication from the command line, use the following command, s
 
 _This downloads the kubeconfig for the cluster, merges it with any existing configuration from ~/.kube/config, and automatically handles the authentication token or certificate._
 
-To use a sepcific config to use DO K8 configuration use `kubectl config use-context do-sfo2-example-cluster-01` where you replace the_do-sfo2..._ part by your cluster name.
+To use a sepcific config to use DO K8 configuration use `kubectl config use-context do-sfo2-example-cluster-01` where you replace _the_do-sfo2..._ part by your cluster name.
 ### DigitalOcean Namespace
 
 To create a namespace based on file you can use this:
