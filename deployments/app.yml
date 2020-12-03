@@ -1,0 +1,48 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: smt-prod
+  name: app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: app
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 5
+  template:
+    metadata:
+      labels:
+        app: app
+        tier: backend
+    spec:
+      volumes:
+        - name: code
+          persistentVolumeClaim:
+            claimName: code # see storage/pvc.yml name
+        - name: config
+          configMap:
+              name: nginx-config
+              items:
+              - key: config
+                path: smt.conf
+      containers:
+        - name: laravel
+          # If you don't specify a registry hostname, Kubernetes assumes that you mean the Docker public registry.
+          image: smart48/smt-laravel:latest
+          volumeMounts:
+            - name: code
+              mountPath: /code
+        - name: nginx
+          image: smart48/smt-nginx:latest
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: code
+              mountPath: /code
+            - name: config
+              mountPath: /etc/nginx/conf.d

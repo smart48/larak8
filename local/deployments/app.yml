@@ -2,7 +2,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: localweb
+  name: app
   namespace: smt-local
 spec:
   replicas: 3

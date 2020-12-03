@@ -1,0 +1,26 @@
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: horizon-worker
+spec:
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: horizon-worker
+    spec:
+      containers:
+        - name: laravel
+          image: smart48/smt-laravel-horizon:latest
+          # not sure if we need the port and volume here
+          # ports:
+          #   - containerPort: 9377
+          # volumeMounts:
+          #   - name: code
+          #     mountPath: /code
+          command: ["/usr/local/bin/php", "artisan", "horizon"]
+          lifecycle:
+            preStop:
+              exec:
+                command: ["/usr/local/bin/php", "artisan", "horizon:terminate"]

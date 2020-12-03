@@ -1,0 +1,20 @@
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: workspace
+spec:
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: workspace
+    spec:
+      containers:
+        - name: workspace
+          image: smart48/smt-workspace:latest
+          ports:
+            - containerPort: 22
+          volumeMounts:
+            - name: code
+              mountPath: /code
