@@ -86,6 +86,13 @@ To fire up the app with the Laravel and Nginx container run
 kubectl apply -f local/deployments/app.yml
 ```
 
+then we have the other deployments excluding the databases:
+
+```
+kubectl apply -f local/deployments/horizon.yml
+kubectl apply -f local/deployments/php-worker.yml
+kubectl apply -f local/deployments/workspace.yml
+```
 ### Databases
 
 To run the MySQL database and Redis containers run
