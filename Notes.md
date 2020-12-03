@@ -724,3 +724,30 @@ The PersistentVolume "code-pv" is invalid:
 ```
 
 Needed different setup altogether. See https://github.com/kubernetes/minikube/issues/214 
+
+
+## Remove PVCS
+
+https://medium.com/@miyurz/kubernetes-deleting-resource-like-pv-with-force-and-grace-period-0-still-keeps-pvs-in-3f4ad8710e51
+
+
+To delete pvcs forcefully `--force`:
+
+```
+kubectl delete pv --all -n smt-local --force 
+```
+often does not work. You also need
+
+```
+kubectl edit persistentvolume/pvc-521d9a78-dba4–11e8-b576–12241a2479c2
+```
+
+and then remove the 
+
+```
+finalizers:
+  -  kubernetes.io/pv-protection
+  and second line here
+```
+
+This kind of removals you should of course not do lightly.
