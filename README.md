@@ -1,5 +1,7 @@
 # Smart48 Laravel Kubernetes
 
+**This is still in alpha**
+
 Kubernetes Deployment of Dockerized Laravel application at Digital Ocean. This deployment setup is still in alpha stage so cannot be used for production and even testing is limited. We currently have a basic
 
 - ingress nginx deployment
@@ -14,11 +16,6 @@ Kubernetes Deployment of Dockerized Laravel application at Digital Ocean. This d
 
 - autoscaler
 
-We still need to work on:
-
-1. Workspace to take care of `php artisan` tasks,
-2. PHP Worker for running supervisor for queue and scheduler
-3. rework the existing ones some more.
 
 
 ## Digital Ocean Setup
@@ -138,53 +135,6 @@ https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler/cloudpro
 Autoscaler uses `HorizontalPodAutoscaler` as well which we may remove again as we do things during provisoning already.
 
 
-## Local setup
-
-Local testing of the deployment can be done with Minikube. Also see [Notes](Notes.md) on setup and possible issues.
-
-```
-minikube start
-```
-
-### Local Namespace
-
-To create a namespace based on file you can use this:
-
-```
-kubectl apply -f local/namespace.yml
-```
-
-Then this namespace can be used instead of default to launch your pods into.
-
-### Local Ingress
-
-Locall you can run an Ingress Nginx as well, but in a slightly different way
-
-https://kubernetes.io/docs/tasks/access-application-cluster/ingress-minikube/
-
-`minikube start`
-
-#### Enable Minikube Nginx Ingres 
-To enable the NGINX Ingress controller, run the following command:
-
-`minikube addons enable ingress`
-Verify that the NGINX Ingress controller is running
-
-`kubectl get pods -n kube-system`
-
-Deploy the Ingress controller using an example: `kubectl create deployment web --image=gcr.io/google-samples/hello-app:1.0`
-
-### Local Persistent Volume
-
-to use the storage for local testing apply the one in local directory `kubectl apply -f local/pvc.yml`
-
-and to check it has been created and is running we can use `kubectl get pv` and to delete all (dangerous) use `kubectl delete pvc --all`
-
-*Notes on Persistent volume and testing still needed*
-### Local Deployments 
-```
-kubectl apply -f local/deployment.yml
-```
 
 
 ## Resources
