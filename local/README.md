@@ -29,6 +29,12 @@ kubectl apply -f local/namespace.yml
 
 Then this namespace can be used instead of default to launch your pods into.
 
+To check whethere the new namespace is there you can run
+
+```
+kubectl get namespaces
+```
+
 ## Local Ingress Controller
 
 Locally you can run an Ingress Nginx as well, but in a slightly different way
@@ -58,18 +64,28 @@ kubectl apply -f local/services/ingress.yml
 Once this is up and running you can check for address and port with 
 
 ```
-kubectl get ingress
+kubectl get ingress -n smt-local                            
+Warning: extensions/v1beta1 Ingress is deprecated in v1.14+, unavailable in v1.22+; use networking.k8s.io/v1 Ingress
+NAME               CLASS    HOSTS            ADDRESS        PORTS   AGE
+ingress-resource   <none>   smart48k8.test   192.168.64.5   80      6m48s
 ```
 
+**NB** See warning on v1beta1 usage though we are on K8 1.19.x since recent upgrade and are using v1 exclusively.
 
-**NB** We added a host in this file called `smart48k8.test` and you do need to check `minikube ip` to attach this host to the ip in `/etc/host for it to load.
+**NBB** We added a host in this file called `smart48k8.test` and you do need to check `minikube ip` to attach this host to the ip in `/etc/host for it to load.
 
 ## Local Persistent Volume
 
+https://minikube.sigs.k8s.io/docs/handbook/persistent_volumes/
+
 to use the storage for local testing apply the one in local directory 
 
+_minikube supports PersistentVolumes of type hostPath out of the box. These PersistentVolumes are mapped to a directory inside the running minikube instance (usually a VM, unless you use --driver=none, --driver=docker, or --driver=podman). For more information on how this works, read the Dynamic Provisioning section below._
+
+_In addition, minikube implements a very simple, canonical implementation of dynamic storage controller that runs alongside its deployment. This manages provisioning of hostPath volumes (rather then via the previous, in-tree hostPath provider)._
+
+
 ```
-kubectl apply -f local/storage/pv.yml
 kubectl apply -f local/storage/pvc.yml
 ```
 
