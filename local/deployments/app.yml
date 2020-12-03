@@ -30,6 +30,8 @@ spec:
             limits:
               cpu: 500m
           volumeMounts:
+          - name: code-storage
+            mountPath: /data/smtapp
           # examples
           # - name: orientdb-config
           #   mountPath: /data/orientdb/config
@@ -43,10 +45,13 @@ spec:
             - containerPort: 9376
           volumeMounts:
           # example
-          # - name: orientdb-config
-          #   mountPath: /data/orientdb/config
+          - name: nginx-config
+            mountPath: /data/nginx/config
       volumes:
         - name: code-storage
+          persistentVolumeClaim:
+            claimName: code-pv-claim
+        - name: nginx-config
           persistentVolumeClaim:
             claimName: code-pv-claim
         # examples
