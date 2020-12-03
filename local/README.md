@@ -85,6 +85,12 @@ _minikube supports PersistentVolumes of type hostPath out of the box. These Pers
 _In addition, minikube implements a very simple, canonical implementation of dynamic storage controller that runs alongside its deployment. This manages provisioning of hostPath volumes (rather then via the previous, in-tree hostPath provider)._
 
 
+Persistent Volume for only a PVC chosen
+
+```
+kubectl apply -f local/storage/pv.yml
+```
+
 ```
 kubectl apply -f local/storage/pvc.yml
 ```
@@ -96,6 +102,12 @@ and to check it has been created and is running we can use `kubectl get pv` and 
 *Notes on Persistent volume and testing still needed*
 
 You also need to add persistent storage for the database containers so use
+
+To remove all PVs use
+
+```
+kubectl delete pv --all -n smt-local 
+```
 
 ```
 kubectl apply -f local/storage/mysql-pv-claim.yml
