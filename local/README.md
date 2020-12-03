@@ -49,11 +49,21 @@ Verify that the NGINX Ingress controller is running:
 
 https://kubernetes.io/docs/tasks/access-application-cluster/ingress-minikube/#create-an-ingress-resource
 
-To create a service for your Ingress Nginx Controller we need to set this up.
+To create a resource for your Ingress Nginx Controller to send traffic to your Service we need to set this up.
 
 ```
 kubectl apply -f local/services/ingress.yml
 ```
+
+Once this is up and running you can check for address and port with 
+
+```
+kubectl get ingress
+```
+
+
+**NB** We added a host in this file called `smart48k8.test` and you do need to check `minikube ip` to attach this host to the ip in `/etc/host for it to load.
+
 ## Local Persistent Volume
 
 to use the storage for local testing apply the one in local directory 
