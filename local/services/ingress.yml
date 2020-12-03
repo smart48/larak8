@@ -1,20 +1,24 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: ingress-service
+  name: ingress-resource
   namespace: smt-local
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /$1
 spec:
   rules:
-    - host: smart48k8.test
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: app # refers to our app service
-                port:
-                  number: 8080
+    # host can be set in /etc/host or with laravel valet `valet link`
+  - host: smart48k8.test
+    http:
+      paths:
+        # https://kubernetes.io/docs/concepts/services-networking/ingress/#path-types 
+        # `/` is all paths using Prefix
+      - pathType: Prefix
+        path: /public
+        backend:
+          service:
+            # refers to our app service exposed to the cluster
+            name: app 
+            port:
+              number: 8080
 
