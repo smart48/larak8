@@ -5,8 +5,7 @@
 Kubernetes Deployment of Dockerized Laravel application at Digital Ocean. This deployment setup is still in alpha stage so cannot be used for production and even testing is limited. We currently have a basic
 
 - ingress nginx deployment
-- php fpm deployment
-- nginx deployment
+- app deployment including php fpm and nginx
 - horizon deployment
 - workspace deployment
 - php worker
@@ -20,7 +19,12 @@ Kubernetes Deployment of Dockerized Laravel application at Digital Ocean. This d
 
 ## Digital Ocean Setup
 
+This readme is on how to set all up on your Digital Ocean cluster. For local testing checking the local directory and readme there.
+### Prerequisies
+
 We assume you set up your cluster and recommend using our [Terraform setup](https://github.com/smart48/smt-provision) to set things up your way and with managed databases and DO Spaces for status. You can however use the DigitalOcean UI which is very nice too.
+
+#### Authentication
 
 https://www.digitalocean.com/docs/kubernetes/how-to/connect-to-cluster/
 
@@ -28,9 +32,29 @@ _To configure authentication from the command line, use the following command, s
 
 `doctl kubernetes cluster kubeconfig save use_your_cluster_name`
 
-_This downloads the kubeconfig for the cluster, merges it with any existing configuration from ~/.kube/config, and automatically handles the authentication token or certificate._
+This downloads the kubeconfig for the cluster, merges it with any existing configuration from `~/.kube/config`, and automatically handles the authentication token or certificate.
+
+You can do this from the control panel as well. See documentation in link resource added here above.
+
+#### Check Context
+
+
+To check what your current context is and to make sure you are using DigitalOcean's configuration first do a 
+
+```
+kubectl config current-context
+```
+
+and to check all existing ones so you could see your minikube and the DigitalOcean context do a 
+
+```
+kubectl config get-contexts
+```
 
 To use a sepcific config to use DO K8 configuration use `kubectl config use-context do-sfo2-example-cluster-01` where you replace the _do-sfo2..._ part by your cluster name.
+
+
+
 ### DigitalOcean Namespace
 
 To create a namespace based on file you can use this:

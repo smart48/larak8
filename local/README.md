@@ -2,9 +2,22 @@
 
 Local testing of the deployment can be done with Minikube. Also see [Notes](Notes.md) on setup and possible issues.
 
+
+## Startup
+
+To get Minikube running execute the following command:
+
 ```
 minikube start
 ```
+
+Then to check and make sure you have the proper context up and running do a
+
+```
+kubectl config current-context
+```
+
+It should show *minikube*
 
 ## Local Namespace
 
@@ -16,7 +29,7 @@ kubectl apply -f local/namespace.yml
 
 Then this namespace can be used instead of default to launch your pods into.
 
-## Local Ingress
+## Local Ingress Controller
 
 Locally you can run an Ingress Nginx as well, but in a slightly different way
 
@@ -31,8 +44,16 @@ Verify that the NGINX Ingress controller is running:
 
 `kubectl get pods -n kube-system`
 
-Deploy the Ingress controller using an example: `kubectl create deployment web --image=gcr.io/google-samples/hello-app:1.0`
 
+## Ingress Resource 
+
+https://kubernetes.io/docs/tasks/access-application-cluster/ingress-minikube/#create-an-ingress-resource
+
+To create a service for your Ingress Nginx Controller we need to set this up.
+
+```
+kubectl apply -f local/services/ingress.yml
+```
 ## Local Persistent Volume
 
 to use the storage for local testing apply the one in local directory 
