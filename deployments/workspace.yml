@@ -3,6 +3,7 @@ apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
   name: workspace
+  namespace: smt-prod
 spec:
   replicas: 3
   template:
