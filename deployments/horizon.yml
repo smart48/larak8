@@ -3,6 +3,7 @@ apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
   name: horizon-worker
+  namespace: smt-prod
 spec:
   replicas: 3
   template:
