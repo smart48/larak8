@@ -30,7 +30,7 @@ _To configure authentication from the command line, use the following command, s
 
 _This downloads the kubeconfig for the cluster, merges it with any existing configuration from ~/.kube/config, and automatically handles the authentication token or certificate._
 
-To use a sepcific config to use DO K8 configuration use `kubectl config use-context do-sfo2-example-cluster-01` where you replace _the_do-sfo2..._ part by your cluster name.
+To use a sepcific config to use DO K8 configuration use `kubectl config use-context do-sfo2-example-cluster-01` where you replace the _do-sfo2..._ part by your cluster name.
 ### DigitalOcean Namespace
 
 To create a namespace based on file you can use this:
@@ -79,10 +79,10 @@ To work with storage on Digital Ocean we first need to install a plugin. AS DO s
 
 _We recommend against using HostPath volumes because nodes are frequently replaced and all data stored on the nodes will be lost._
 
-For that we need to add a secret to be able to connect to DO and get this done:
+For that we need to add a secret to be able to connect to DO and get this done. Add the access-token as stringData before you move on. We added the secret yaml file in the repository already. Just adjust it and add your key.
 
 ```
-kubectl apply -f secret.yaml
+kubectl apply -f storage/secret.yaml
 ```
 
 You can check the secret using `kubectl -n kube-system get secret digitalocean`. Once that is done you can download the plugin from the Digital Ocean repository:
@@ -91,6 +91,8 @@ You can check the secret using `kubectl -n kube-system get secret digitalocean`.
 kubectl apply -f https://raw.githubusercontent.com/digitalocean/csi-digitalocean/master/deploy/kubernetes/releases/csi-digitalocean-v0.3.0.yaml
 ```
 
+### Persisent Storage Claim
+
 One that is done we can create our Persistent Volume Claim with the following file application:
 
 ```
@@ -98,20 +100,6 @@ kubectl apply -f storage/pvc.yml
 ```
 
 **NB** A separate Persistent Volume file is not needed here as we work with the DO plugin. For local Minikube setups we do.
-
-### DO App Deployments
-
-Options to run these all in one pod and one web deployment:
-
-
-- PHP FPM 
-- Workspace
-- Horizon
-- Nginx Web Server
-
-**NB** PHP Worker is still missing here.
-
-with `kubectl apply -f deployments/web.yml`
 
 #### Nginx configMap
 
@@ -123,17 +111,31 @@ kubectl apply -f configs/nginx_configMap.yaml
 
 **NB** Persistent Volume Claims do need to be up and running!
 
-### DO PHP Worker
+### DO App Deployments
 
-```
-kubecttl apply -f deployments/php-worker.yml
-```
+We have multiple deployments to run all containers in one pod
+
+
+- App including PHP FPM and Nginx
+- Horizon
+- PHP Worker
+- Workspace
+
+
+You can deploy these with:
+
+ ```
+ kubectl apply -f deployments/web.yml
+ kubectl apply -f deployments/horizon.yml
+ kubectl apply -f deployments/php-worker.yml
+ kubectl apply -f deployments/workspace.yml
+ ```
+
 ### DO Auto Scaler
 
 https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler/cloudprovider/digitalocean
 
 Autoscaler uses `HorizontalPodAutoscaler` as well which we may remove again as we do things during provisoning already.
-
 
 
 
