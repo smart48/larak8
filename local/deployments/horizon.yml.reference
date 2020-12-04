@@ -12,7 +12,7 @@ spec:
         app: horizon-worker
     spec:
       containers:
-        - name: laravel
+        - name: laravel-horizon
           image: smart48/smt-laravel-horizon:latest
           # not sure if we need the port and volume here
           # ports:

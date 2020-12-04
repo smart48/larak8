@@ -7,7 +7,7 @@ spec:
   accessModes:
       - ReadWriteOnce
   capacity:
-    storage: 200Mi
+    storage: 20Gi
   hostPath:
     # minikube is configured to persist files stored under /data/ and a few 
     # other directories such as /var/lib/minikube in the _vm_

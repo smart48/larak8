@@ -8,13 +8,13 @@ metadata:
 spec:
   rules:
     # host can be set in /etc/host or with laravel valet `valet link`
-  - host: smart48k8.test
+  - host: smart48k8.local
     http:
       paths:
         # https://kubernetes.io/docs/concepts/services-networking/ingress/#path-types 
         # `/` is all paths using Prefix
       - pathType: Prefix
-        path: /public
+        path: /
         backend:
           service:
             # refers to our app service exposed to the cluster
