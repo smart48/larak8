@@ -47,6 +47,37 @@ spec:
           # example
           - name: nginx-config
             mountPath: /data/nginx/config
+        - name: laravel-horizon
+          image: smart48/smt-laravel-horizon:latest
+          # not sure if we need the port and volume here
+          # ports:
+          #   - containerPort: 9377
+          # volumeMounts:
+          #   - name: code
+          #     mountPath: /code
+          command: ["/usr/local/bin/php", "artisan", "horizon"]
+          lifecycle:
+            preStop:
+              exec:
+                command: ["/usr/local/bin/php", "artisan", "horizon:terminate"]
+        - name: mysql
+          image: smart48/smt-mysql:latest
+          imagePullPolicy: Never
+          env:
+            - name: mysql_ROOT_PASSWORD
+              value: .sweetpwd.
+            - name: mysql_DATABASE
+              value: my_db
+            - name: mysql_USER
+              value: db_user
+            - name: mysql_PASSWORD
+              value: .mypwd
+          args: ["--default-authentication-plugin=mysql_native_password"]
+          ports:
+            - containerPort: 3306
+          volumeMounts:
+            - name: mysql-persistent-storage
+              mountPath: /var/lib/mysql
       volumes:
         - name: code-storage
           persistentVolumeClaim:
@@ -54,13 +85,6 @@ spec:
         - name: nginx-config
           persistentVolumeClaim:
             claimName: code-pv-claim
-        # examples
-        # - name: orientdb-config
-        #   persistentVolumeClaim:
-        #     claimName: orientdb-pv-claim
-        # - name: orientdb-databases
-        #   persistentVolumeClaim:
-        #     claimName: orientdb-pv-claim
-        # - name: orientdb-backup
-        #   persistentVolumeClaim:
-        #     claimName: orientdb-pv-claim
+        - name: mysql-persistent-storage
+          persistentVolumeClaim:
+            claimName: mysql-pv-claim
