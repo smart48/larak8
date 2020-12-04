@@ -1,5 +1,6 @@
 ---
 apiVersion: batch/v1
+# probably need Deployment here as well
 kind: CronJob
 metadata:
   namespace: smt-prod
