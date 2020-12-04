@@ -72,7 +72,7 @@ ingress-resource   <none>   smart48k8.test   192.168.64.5   80      6m48s
 
 **NB** See warning on v1beta1 usage though we are on K8 1.19.x since recent upgrade and are using v1 exclusively.
 
-**NBB** We added a host in this file called `smart48k8.test` and you do need to check `minikube ip` to attach this host to the ip in `/etc/host for it to load.
+**NBB** We added a host in this file called `smart48k8.local` and you do need to check `minikube ip` to attach this host to the ip in `/etc/host for it to load.
 
 ## Local Persistent Volume
 
@@ -105,8 +105,6 @@ https://platform9.com/blog/tutorial-dynamic-provisioning-of-persistent-storage-i
 ```
 kubectl apply -f local/storage/pvc.yml
 ```
-
-**NB** Not sure if we need the first one as well here.
 
 and to check it has been created and is running we can use `kubectl get pv` and to delete all (dangerous) use `kubectl delete pvc --all`
 
@@ -149,4 +147,11 @@ To run the MySQL database and Redis containers run
 ```
 kubectl apply -f local/deployments/mysql.yml
 kubectl apply -f local/deployments/redis.yml
+```
+
+
+## Services 
+
+```
+kubectl apply -f local/services/app.yml
 ```
