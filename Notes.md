@@ -751,3 +751,29 @@ finalizers:
 ```
 
 This kind of removals you should of course not do lightly.
+
+## Minikube Ingress Deprecated Warning Post Upgrade
+
+When checking Ingress resources with locally enabled Ingress Nginx we are getting
+
+```
+kubectl get ingress -n smt-local
+Warning: extensions/v1beta1 Ingress is deprecated in v1.14+, unavailable in v1.22+; use networking.k8s.io/v1 Ingress
+```
+
+When you add api version v1 all is well
+
+```
+smt-deploy git:(main) ✗ kubectl get ingresses.v1.networking.k8s.io -n smt-local
+NAME               CLASS    HOSTS            ADDRESS        PORTS   AGE
+ingress-resource   <none>   smart48k8.test   192.168.64.5   80      21h
+```
+
+## On Pods
+
+Seems we should in general create deployments and not naked pods so will keep it that way
+
+https://kubernetes.io/docs/concepts/configuration/overview/#naked-pods-vs-replicasets-deployments-and-jobs
+
+
+_A Deployment, which both creates a ReplicaSet to ensure that the desired number of Pods is always available, and specifies a strategy to replace Pods (such as RollingUpdate), is almost always preferable to creating Pods directly, except for some explicit restartPolicy: Never scenarios. A Job may also be appropriate._
