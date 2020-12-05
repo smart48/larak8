@@ -8,8 +8,11 @@ Local testing of the deployment can be done with Minikube. Also see [Notes](Note
 To get Minikube running execute the following command:
 
 ```
-minikube start
+minikube start --mount-string="$HOME/code/smt-data:/data"
 ```
+
+**NB** we mount our data volume right away so we can use it later on for our storage.
+**NBB** directory on host needs to exist
 
 Then to check and make sure you have the proper context up and running do a
 
