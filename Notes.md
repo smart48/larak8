@@ -777,3 +777,52 @@ https://kubernetes.io/docs/concepts/configuration/overview/#naked-pods-vs-replic
 
 
 _A Deployment, which both creates a ReplicaSet to ensure that the desired number of Pods is always available, and specifies a strategy to replace Pods (such as RollingUpdate), is almost always preferable to creating Pods directly, except for some explicit restartPolicy: Never scenarios. A Job may also be appropriate._
+
+## Local Mount Point
+
+resources
+- https://minikube.sigs.k8s.io/docs/handbook/mount/
+- https://minikube.sigs.k8s.io/docs/handbook/persistent_volumes/
+
+When mounting a directory it seems you cannot just work in the same shell as the process needs to stay alive
+
+```
+minikube mount $HOME/code/smt-data:/data
+📁  Mounting host path /Users/jasper/code/smt-data into VM as /data ...
+    ▪ Mount type:   
+    ▪ User ID:      docker
+    ▪ Group ID:     docker
+    ▪ Version:      9p2000.L
+    ▪ Message Size: 262144
+    ▪ Permissions:  755 (-rwxr-xr-x)
+    ▪ Options:      map[]
+    ▪ Bind Address: 192.168.64.1:58725
+🚀  Userspace file server: ufs starting
+✅  Successfully mounted /Users/jasper/code/smt-data to /data
+
+📌  NOTE: This process must stay alive for the mount to be accessible ...
+```
+
+Seems something like `$ minikube start --mount-string="$HOME/go/src/github.com/nginx:/data"` at the beginning is better.
+
+see https://stackoverflow.com/questions/48534980/mount-local-directory-into-pod-in-minikube#48535001
+
+
+### Mount Point Post Minikube start
+
+
+**NB** Only use this part if you did not start Minikube with a directory already mounted!
+
+resources:
+- https://minikube.sigs.k8s.io/docs/handbook/mount/
+- https://stackoverflow.com/questions/54993532/how-to-use-kubernetes-persistent-local-volumes-with-minikube-on-osx
+- https://stackoverflow.com/questions/48534980/mount-local-directory-into-pod-in-minikube#48535001
+
+You need to mount a host based directory of choice in the Minikube Virtual Box. One you refer to when you use PVs and mount data. So we made a new data directory on the macOS host and connected it to the data directory on the Minikube Virtual Box:
+
+```
+mkdir -p $HOME/code/smt-data
+minikube mount $HOME/code/smt-data:/data
+```
+
+This will load data from your host inside `~/code/smt-code` as `/data` on the virtual host. This way however you need to keep the process running
