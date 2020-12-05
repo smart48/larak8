@@ -37,6 +37,11 @@ To check whethere the new namespace is there you can run
 ```
 kubectl get namespaces
 ```
+to make namespace default use 
+
+```
+kubectl config set-context --current --namespace=smt-local
+```
 
 ## Local Ingress Controller
 
