@@ -77,7 +77,7 @@ spec:
             claimName: code-pv-claim
         - name: nginx-config
           persistentVolumeClaim:
-            claimName: code-pv-claim
+            claimName: nginx-pv-claim
         - name: mysql-persistent-storage
           persistentVolumeClaim:
             claimName: mysql-pv-claim
