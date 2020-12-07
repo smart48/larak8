@@ -878,3 +878,10 @@ Could not open input file: artisan
 2020-12-07 05:09:45+00:00 [ERROR] [Entrypoint]: Database is uninitialized and password option is not specified
 You need to specify one of MYSQL_ROOT_PASSWORD, MYSQL_ALLOW_EMPTY_PASSWORD and MYSQL_RANDOM_ROOT_PASSWORD
 ```
+
+If you do try to enter one of these containers with issues you will fail:
+
+```
+kubectl exec -it app-5779b848cb-2srl6 -c mysql -- /bin/bash
+error: unable to upgrade connection: container not found ("mysql")
+```
