@@ -71,6 +71,21 @@ spec:
           volumeMounts:
             - name: mysql-persistent-storage
               mountPath: /var/lib/mysql
+      # Laravel Code Download so we can run Horizon without issues 
+      # and have a codebase to start with For private repo better to add 
+      # code to laravel image
+      # initContainers:
+        - name: git-cloner
+          image: alpine/git
+          args:
+              - clone
+              - --single-branch
+              - --
+              - https://github.com/smart48/smt-demo
+              - /code
+          volumeMounts:
+          - mountPath: /code
+            name: code-storage
       volumes:
         - name: code-storage
           persistentVolumeClaim:
