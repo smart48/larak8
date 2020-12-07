@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: code-pv-claim
+  namespace: smt-local
+  labels:
+    type: code
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: standard
+  resources:
+    requests:
+      storage: 5Gi

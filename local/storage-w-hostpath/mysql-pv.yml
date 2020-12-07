@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mysql-storage
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: standard
+  hostPath:
+  # hostPath is on VM so inside minikube
+      path: /data/mysql/
