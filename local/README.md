@@ -100,9 +100,9 @@ _In addition, minikube implements a very simple, canonical implementation of dyn
 Persistent Volume for only a PVC chosen with in-tree host path:
 
 ```
-kubectl apply -f local/storage-w-hostpath/code-pv.yml
-kubectl apply -f local/storage-w-hostpath/nginx-pv.yml
-kubectl apply -f local/storage-w-hostpath/mysql-pv.yml
+kubectl apply -f local/storage/code-pv.yml
+kubectl apply -f local/storage/nginx-pv.yml
+kubectl apply -f local/storage/mysql-pv.yml
 ```
 
 
