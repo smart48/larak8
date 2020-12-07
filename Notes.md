@@ -830,18 +830,51 @@ This will load data from your host inside `~/code/smt-code` as `/data` on the vi
 
 ## Minikube Directory Creation
 
+For working with `hostPath` you need to create directories in the VM it seems. Now mainly focussing on non hostPath setup
+
 ```
-1  cd /data/
-    2  ls -la
-    8  sudo mkdir code
-    9  ls -la
-   15  sudo chown docker:docker code/
-   16  sudo mkdir mysql
-   17  sudo mkdir redis
-   18  sudo chown docker:docker redis/
-   19  sudo chown docker:docker mysql/
-   24  sudo mkdir nginx
-   26  chown docker:docker nginx/
-   27  sudo chown docker:docker nginx/
-   28  cd nginx/
-   ```
+1   cd /data/
+2   ls -la
+8   sudo mkdir code
+9   ls -la
+15  sudo chown docker:docker code/
+16  sudo mkdir mysql
+17  sudo mkdir redis
+18  sudo chown docker:docker redis/
+19  sudo chown docker:docker mysql/
+24  sudo mkdir nginx
+26  chown docker:docker nginx/
+27  sudo chown docker:docker nginx/
+28  cd nginx/
+```
+
+## Debugging CrashLoopBackOff
+
+
+To debug CrashLoopBackOff you need to check the pod's log instead of minikube to get to the bottom of things:
+
+```
+kubectl logs -f app-5779b848cb-2srl6 
+error: a container name must be specified for pod app-5779b848cb-2srl6, choose one of: [laravel nginx laravel-horizon mysql]
+➜  smt-deploy git:(main) ✗ kubectl logs -f app-5779b848cb-2srl6 laravel
+[07-Dec-2020 05:02:52] NOTICE: fpm is running, pid 1
+[07-Dec-2020 05:02:52] NOTICE: ready to handle connections
+^C
+➜  smt-deploy git:(main) ✗ kubectl logs -f app-5779b848cb-2srl6 nginx  
+/docker-entrypoint.sh: /docker-entrypoint.d/ is not empty, will attempt to perform configuration
+/docker-entrypoint.sh: Looking for shell scripts in /docker-entrypoint.d/
+/docker-entrypoint.sh: Launching /docker-entrypoint.d/10-listen-on-ipv6-by-default.sh
+10-listen-on-ipv6-by-default.sh: Getting the checksum of /etc/nginx/conf.d/default.conf
+10-listen-on-ipv6-by-default.sh: Enabled listen on IPv6 in /etc/nginx/conf.d/default.conf
+/docker-entrypoint.sh: Launching /docker-entrypoint.d/20-envsubst-on-templates.sh
+/docker-entrypoint.sh: Configuration complete; ready for start up
+^C
+➜  smt-deploy git:(main) ✗ kubectl logs -f app-5779b848cb-2srl6 laravel-horizon 
+Could not open input file: artisan
+➜  smt-deploy git:(main) ✗ kubectl logs -f app-5779b848cb-2srl6 mysql          
+2020-12-07 05:09:45+00:00 [Note] [Entrypoint]: Entrypoint script for MySQL Server 8.0.22-1debian10 started.
+2020-12-07 05:09:45+00:00 [Note] [Entrypoint]: Switching to dedicated user 'mysql'
+2020-12-07 05:09:45+00:00 [Note] [Entrypoint]: Entrypoint script for MySQL Server 8.0.22-1debian10 started.
+2020-12-07 05:09:45+00:00 [ERROR] [Entrypoint]: Database is uninitialized and password option is not specified
+You need to specify one of MYSQL_ROOT_PASSWORD, MYSQL_ALLOW_EMPTY_PASSWORD and MYSQL_RANDOM_ROOT_PASSWORD
+```
