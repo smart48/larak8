@@ -826,3 +826,22 @@ minikube mount $HOME/code/smt-data:/data
 ```
 
 This will load data from your host inside `~/code/smt-code` as `/data` on the virtual host. This way however you need to keep the process running
+
+
+## Minikube Directory Creation
+
+```
+1  cd /data/
+    2  ls -la
+    8  sudo mkdir code
+    9  ls -la
+   15  sudo chown docker:docker code/
+   16  sudo mkdir mysql
+   17  sudo mkdir redis
+   18  sudo chown docker:docker redis/
+   19  sudo chown docker:docker mysql/
+   24  sudo mkdir nginx
+   26  chown docker:docker nginx/
+   27  sudo chown docker:docker nginx/
+   28  cd nginx/
+   ```

@@ -175,4 +175,4 @@ Autoscaler uses `HorizontalPodAutoscaler` as well which we may remove again as w
 - [Bill Willson](https://github.com/BillWilson/laravel-k8s-demo/)
 - [Kubernetes Cheatsheets](https://kubernetes.io/docs/reference/kubectl/cheatsheet/)
 - [Digital Ocean how to deploy a PHP application](https://www.digitalocean.com/community/tutorials/how-to-deploy-a-php-application-with-kubernetes-on-ubuntu-16-04)
-- [Learning K8 Tutorial](https://learnk8s.io/blog/kubernetes-deploy-laravel-the-easy-way)
+- [Learning K8 Tutorial](https://learnk8s.io/blog/kubernetes-deploy-laravel-the-easy-way) - not on volumes

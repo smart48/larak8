@@ -8,11 +8,11 @@ Local testing of the deployment can be done with Minikube. Also see [Notes](Note
 To get Minikube running execute the following command:
 
 ```
-minikube start --mount-string="$HOME/code/smt-data:/data"
+minikube start --mount-string="$HOME/code/smt-data:/mnt/data"
 ```
 
 **NB** we mount our data volume right away so we can use it later on for our storage.
-**NBB** directory on host needs to exist
+**NBB** directory on host needs to exist with directories inside as used in deployment volume mounts
 
 Then to check and make sure you have the proper context up and running do a
 
@@ -52,11 +52,15 @@ https://kubernetes.io/docs/tasks/access-application-cluster/ingress-minikube/
 #### Enable Minikube Nginx Ingres 
 To enable the NGINX Ingress controller, run the following command:
 
-`minikube addons enable ingress`
+```
+minikube addons enable ingress
+```
 
 Verify that the NGINX Ingress controller is running:
 
-`kubectl get pods -n kube-system`
+```
+kubectl get pods -n kube-system
+```
 
 
 ## Ingress Resource 
@@ -78,8 +82,6 @@ NAME               CLASS    HOSTS            ADDRESS        PORTS   AGE
 ingress-resource   <none>   smart48k8.test   192.168.64.5   80      6m48s
 ```
 
-**NB** See warning on v1beta1 usage though we are on K8 1.19.x since recent upgrade and are using v1 exclusively.
-
 **NBB** We added a host in this file called `smart48k8.local` and you do need to check `minikube ip` to attach this host to the ip in `/etc/host for it to load.
 
 ## Local Persistent Volume
@@ -99,7 +101,8 @@ _In addition, minikube implements a very simple, canonical implementation of dyn
 Persistent Volume for only a PVC chosen with in-tree host path:
 
 ```
-kubectl apply -f local/storage/pv.yml
+kubectl apply -f local/storage/code-pv.yml
+kubectl apply -f local/storage/mysql-pv.yml
 ```
 
 
@@ -111,7 +114,7 @@ https://platform9.com/blog/tutorial-dynamic-provisioning-of-persistent-storage-i
 
 
 ```
-kubectl apply -f local/storage/pvc.yml
+kubectl apply -f local/storage/code-pv-claim.yml
 ```
 
 and to check it has been created and is running we can use `kubectl get pv` and to delete all (dangerous) use `kubectl delete pvc --all`
@@ -119,12 +122,6 @@ and to check it has been created and is running we can use `kubectl get pv` and 
 *Notes on Persistent volume and testing still needed*
 
 You also need to add persistent storage for the database containers so use
-
-To remove all PVs use
-
-```
-kubectl delete pv --all -n smt-local 
-```
 
 ```
 kubectl apply -f local/storage/mysql-pv-claim.yml

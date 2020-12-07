@@ -31,7 +31,7 @@ spec:
               cpu: 500m
           volumeMounts:
           - name: code-storage
-            mountPath: /code
+            mountPath: /data/code
         - name: nginx
           image: smart48/smt-nginx:latest
           ports:
@@ -39,7 +39,7 @@ spec:
           volumeMounts:
           # example
           - name: nginx-config
-            mountPath: /etc/nginx/config
+            mountPath: /data/nginx/config
         - name: laravel-horizon
           image: smart48/smt-laravel-horizon:latest
           # not sure if we need the port and volume here
@@ -47,7 +47,7 @@ spec:
             - containerPort: 9377
           volumeMounts:
             - name: code-storage
-              mountPath: /code
+              mountPath: data/code
           command: ["/usr/local/bin/php", "artisan", "horizon"]
           lifecycle:
             preStop:
@@ -70,14 +70,14 @@ spec:
             - containerPort: 3306
           volumeMounts:
             - name: mysql-persistent-storage
-              mountPath: /var/lib/mysql
+              mountPath: /data/mysql
       volumes:
         - name: code-storage
           persistentVolumeClaim:
             claimName: code-pv-claim
         - name: nginx-config
           persistentVolumeClaim:
-            claimName: code-pv-claim
+            claimName: nginx-pv-claim
         - name: mysql-persistent-storage
           persistentVolumeClaim:
             claimName: mysql-pv-claim
