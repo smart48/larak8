@@ -8,11 +8,10 @@ Local testing of the deployment can be done with Minikube. Also see [Notes](Note
 To get Minikube running execute the following command:
 
 ```
-minikube start --mount-string="$HOME/code/smt-data:/mnt/data"
+minikube start
 ```
 
 **NB** we mount our data volume right away so we can use it later on for our storage.
-**NBB** directory on host needs to exist with directories inside as used in deployment volume mounts
 
 Then to check and make sure you have the proper context up and running do a
 
@@ -101,8 +100,9 @@ _In addition, minikube implements a very simple, canonical implementation of dyn
 Persistent Volume for only a PVC chosen with in-tree host path:
 
 ```
-kubectl apply -f local/storage/code-pv.yml
-kubectl apply -f local/storage/mysql-pv.yml
+kubectl apply -f local/storage-w-hostpath/code-pv.yml
+kubectl apply -f local/storage-w-hostpath/nginx-pv.yml
+kubectl apply -f local/storage-w-hostpath/mysql-pv.yml
 ```
 
 
