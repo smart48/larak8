@@ -41,7 +41,7 @@ spec:
           - name: nginx-config
             mountPath: /etc/nginx/config
         - name: laravel-horizon
-          image: smart48/smt-laravel-horizon:latest
+          image: smart48/smt-horizon:latest
           # not sure if we need the port and volume here
           ports:
             - containerPort: 9377
@@ -55,7 +55,7 @@ spec:
                 command: ["/usr/local/bin/php", "artisan", "horizon:terminate"]
         - name: mysql
           image: smart48/smt-mysql:latest
-          imagePullPolicy: Never
+          # imagePullPolicy: Never
           env:
             - name: mysql_ROOT_PASSWORD
               value: .sweetpwd.
