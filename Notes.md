@@ -885,3 +885,11 @@ If you do try to enter one of these containers with issues you will fail:
 kubectl exec -it app-5779b848cb-2srl6 -c mysql -- /bin/bash
 error: unable to upgrade connection: container not found ("mysql")
 ```
+
+## Docker Hub Rate Limiting Snag
+
+Seems I have been pulling too often and I need to upgrade to not hit the rate limiting .
+
+```
+Warning  Failed     19s               kubelet            Failed to pull image "smart48/smt-mysql:latest": rpc error: code = Unknown desc = Error response from daemon: toomanyrequests: You have reached your pull rate limit. You may increase the limit by authenticating and upgrading: https://www.docker.com/increase-rate-limit
+```
