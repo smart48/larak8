@@ -1,0 +1,83 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app
+  namespace: smt-local
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: web
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 5
+  template:
+    metadata:
+      labels:
+        app: web
+    spec:
+      containers:
+        - name: laravel
+          image: smart48/smt-laravel:latest
+          ports:
+            - containerPort: 9000
+          resources:
+            requests:
+              cpu: 250m
+            limits:
+              cpu: 500m
+          volumeMounts:
+          - name: code-storage
+            mountPath: /data/code
+        - name: nginx
+          image: smart48/smt-nginx:latest
+          ports:
+            - containerPort: 9376
+          volumeMounts:
+          # example
+          - name: nginx-config
+            mountPath: /data/nginx/config
+        - name: laravel-horizon
+          image: smart48/smt-horizon:latest
+          # not sure if we need the port and volume here
+          ports:
+            - containerPort: 9377
+          volumeMounts:
+            - name: code-storage
+              mountPath: data/code
+          command: ["/usr/local/bin/php", "artisan", "horizon"]
+          lifecycle:
+            preStop:
+              exec:
+                command: ["/usr/local/bin/php", "artisan", "horizon:terminate"]
+        - name: mysql
+          image: smart48/smt-mysql:latest
+          # imagePullPolicy: Never
+          env:
+            - name: mysql_ROOT_PASSWORD
+              value: .sweetpwd.
+            - name: mysql_DATABASE
+              value: my_db
+            - name: mysql_USER
+              value: db_user
+            - name: mysql_PASSWORD
+              value: .mypwd
+          args: ["--default-authentication-plugin=mysql_native_password"]
+          ports:
+            - containerPort: 3306
+          volumeMounts:
+            - name: mysql-persistent-storage
+              mountPath: /data/mysql
+      volumes:
+        - name: code-storage
+          persistentVolumeClaim:
+            claimName: code-pv-claim
+        - name: nginx-config
+          persistentVolumeClaim:
+            claimName: nginx-pv-claim
+        - name: mysql-persistent-storage
+          persistentVolumeClaim:
+            claimName: mysql-pv-claim
