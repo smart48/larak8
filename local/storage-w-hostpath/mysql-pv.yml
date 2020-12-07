@@ -10,5 +10,6 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   storageClassName: standard
   hostPath:
-  # hostPath is on VM so inside minikube
+  # hostPath is on VM so inside minikube where we added dirs 
+  # and chowned them docker:docker
       path: /data/mysql/
