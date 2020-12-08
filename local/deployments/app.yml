@@ -5,7 +5,7 @@ metadata:
   name: app
   namespace: smt-local
 spec:
-  replicas: 3
+  replicas: 2
   selector:
     matchLabels:
       app: web
@@ -22,6 +22,7 @@ spec:
       containers:
         - name: laravel
           image: smart48/smt-laravel:latest
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 9000
           resources:
@@ -34,6 +35,7 @@ spec:
             mountPath: /code
         - name: nginx
           image: smart48/smt-nginx:latest
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 9376
           volumeMounts:
@@ -43,6 +45,7 @@ spec:
         - name: laravel-horizon
           image: smart48/smt-horizon:latest
           # not sure if we need the port and volume here
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 9377
           volumeMounts:
@@ -55,7 +58,9 @@ spec:
                 command: ["/usr/local/bin/php", "artisan", "horizon:terminate"]
         - name: mysql
           image: smart48/smt-mysql:latest
-          # imagePullPolicy: Never
+          # The default pull policy is IfNotPresent
+          # When imagePullPolicy is defined without a specific value, it is also set to Always.
+          imagePullPolicy: IfNotPresent
           env:
             - name: mysql_ROOT_PASSWORD
               value: .sweetpwd.
@@ -77,6 +82,7 @@ spec:
       # initContainers:
         - name: git-cloner
           image: alpine/git
+          imagePullPolicy: IfNotPresent
           args:
               - clone
               - --single-branch
