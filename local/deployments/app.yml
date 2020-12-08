@@ -39,55 +39,28 @@ spec:
           ports:
             - containerPort: 9376
           volumeMounts:
-          # example
+          - name: code-storage
+            mountPath: /code
           - name: nginx-config
-            mountPath: /etc/nginx/config
-        - name: laravel-horizon
-          image: smart48/smt-horizon:latest
-          # not sure if we need the port and volume here
-          imagePullPolicy: IfNotPresent
-          ports:
-            - containerPort: 9377
-          volumeMounts:
-            - name: code-storage
-              mountPath: /code
-          command: ["/usr/local/bin/php", "artisan", "horizon"]
-          lifecycle:
-            preStop:
-              exec:
-                command: ["/usr/local/bin/php", "artisan", "horizon:terminate"]
-        # https://github.com/kadnan/LearningK8s
-        # https://www.serverlab.ca/tutorials/containers/kubernetes/how-to-deploy-mysql-server-5-7-to-kubernetes/
-        - name: mysql
-          image: smart48/smt-mysql:1.2
-          # The default pull policy is IfNotPresent
-          # When imagePullPolicy is defined without a specific value, it is also set to Always.
-          imagePullPolicy: IfNotPresent
-          env:
-            - name: MYSQL_ROOT_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: mysql-secrets
-                  key: ROOT_PASSWORD
-            - name: MYSQL_DATABASE
-              value: smt-local-db
-            - name: MYSQL_DB_USER
-              value: database-user
-            - name: MYSQL_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: mysql-secrets
-                  key: PASSWORD
-          args: ["--default-authentication-plugin=mysql_native_password"]
-          ports:
-            - containerPort: 3306
-          volumeMounts:
-            - name: mysql-persistent-storage
-              mountPath: /var/lib/mysql
+            mountPath: /etc/nginx/conf.d
+        # - name: laravel-horizon
+        #   image: smart48/smt-horizon:latest
+        #   # not sure if we need the port and volume here
+        #   imagePullPolicy: IfNotPresent
+        #   ports:
+        #     - containerPort: 9377
+        #   volumeMounts:
+        #     - name: code-storage
+        #       mountPath: /code
+        #   command: ["/usr/local/bin/php", "artisan", "horizon"]
+        #   lifecycle:
+        #     preStop:
+        #       exec:
+        #         command: ["/usr/local/bin/php", "artisan", "horizon:terminate"]
       # Laravel Code Download so we can run Horizon without issues 
       # and have a codebase to start with For private repo better to add 
-      # code to laravel image
-      # initContainers:
+      # code to laravel image https://codepre.com/how-to-perform-git-clone-in-kubernetes-pod-deployment.html
+      initContainers:
         - name: git-cloner
           image: alpine/git
           imagePullPolicy: IfNotPresent
@@ -107,6 +80,4 @@ spec:
         - name: nginx-config
           persistentVolumeClaim:
             claimName: nginx-pv-claim
-        - name: mysql-persistent-storage
-          persistentVolumeClaim:
-            claimName: mysql-pv-claim
+
