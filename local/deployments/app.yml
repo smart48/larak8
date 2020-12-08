@@ -59,7 +59,7 @@ spec:
         # https://github.com/kadnan/LearningK8s
         # https://www.serverlab.ca/tutorials/containers/kubernetes/how-to-deploy-mysql-server-5-7-to-kubernetes/
         - name: mysql
-          image: smart48/smt-mysql:1.0
+          image: smart48/smt-mysql:1.2
           # The default pull policy is IfNotPresent
           # When imagePullPolicy is defined without a specific value, it is also set to Always.
           imagePullPolicy: IfNotPresent
@@ -96,7 +96,7 @@ spec:
               - --single-branch
               - --
               - https://github.com/smart48/smt-demo
-              - /code
+              # - /code
           volumeMounts:
           - mountPath: /code
             name: code-storage
