@@ -127,6 +127,31 @@ kubectl apply -f local/storage/mysql-pv-claim.yml
 kubectl apply -f local/storage/redis-pv-claim.yml
 ```
 
+To check where all is stored do a pcv check:
+
+```
+kubectl describe pv pvc-.....
+```
+
+to see the Path. Then ssh into minikube using 
+
+```
+minkube ssh
+```
+
+and see:
+
+
+```
+cd /tmp/hostpath-provisioner/smt-local/              
+$ ls -la
+total 20
+drwxr-xr-x 5 root root 4096 Dec  7 05:02 .
+drwxr-xr-x 3 root root 4096 Dec  7 05:01 ..
+drwxrwxrwx 2 root root 4096 Dec  7 06:57 code-pv-claim
+drwxrwxrwx 7  999 root 4096 Dec  8 06:39 mysql-pv-claim
+drwxrwxrwx 2 root root 4096 Dec  7 05:02 nginx-pv-claim
+```
 
 ## Secrets
 
@@ -168,7 +193,6 @@ kubectl apply -f local/deployments/app.yml
 then we have the other deployments excluding the databases:
 
 ```
-kubectl apply -f local/deployments/horizon.yml
 kubectl apply -f local/deployments/php-worker.yml
 kubectl apply -f local/deployments/workspace.yml
 ```
