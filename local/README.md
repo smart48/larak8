@@ -61,7 +61,6 @@ Verify that the NGINX Ingress controller is running:
 kubectl get pods -n kube-system
 ```
 
-
 ## Ingress Resource 
 
 https://kubernetes.io/docs/tasks/access-application-cluster/ingress-minikube/#create-an-ingress-resource
@@ -126,6 +125,34 @@ You also need to add persistent storage for the database containers so use
 ```
 kubectl apply -f local/storage/mysql-pv-claim.yml
 kubectl apply -f local/storage/redis-pv-claim.yml
+```
+
+
+# Secrets
+
+We do have a secret to store MySQL and Redis data
+
+```
+kubectl apply -f local/secret/yml
+```
+
+
+Example:
+
+```yaml
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mysql-secrets
+  namespace: smt-local
+type: Opaque
+data:
+  # echo -n "root" | base64
+  # mac echo -n 'root' | openssl base64
+  ROOT_PASSWORD: cm9vdA==
+  # password
+  PASSWORD: cGFzc3dvcmQ=
 ```
 
 ## Local Deployments 
