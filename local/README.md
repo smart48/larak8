@@ -128,7 +128,7 @@ kubectl apply -f local/storage/redis-pv-claim.yml
 ```
 
 
-# Secrets
+## Secrets
 
 We do have a secret to store MySQL and Redis data
 
