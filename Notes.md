@@ -893,3 +893,17 @@ Seems I have been pulling too often and I need to upgrade to not hit the rate li
 ```
 Warning  Failed     19s               kubelet            Failed to pull image "smart48/smt-mysql:latest": rpc error: code = Unknown desc = Error response from daemon: toomanyrequests: You have reached your pull rate limit. You may increase the limit by authenticating and upgrading: https://www.docker.com/increase-rate-limit
 ```
+
+## Password encoding
+
+Linux
+
+```
+echo -n "root" | base64
+```
+
+macOs
+
+```
+mac echo -n 'root' | openssl base64
+```
