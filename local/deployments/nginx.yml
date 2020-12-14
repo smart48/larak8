@@ -3,6 +3,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: nginx
+  labels:
+    tier: backend
   namespace: smt-local
 spec:
   # autoscale using `kubectl autoscale deployment x --cpu-percent=50 --min=1 --max=10` instead of setting replicas
@@ -11,6 +13,7 @@ spec:
   selector:
     matchLabels:
       app: nginx
+      tier: backend
   strategy:
     rollingUpdate:
       maxSurge: 1
@@ -20,6 +23,7 @@ spec:
     metadata:
       labels:
         app: nginx
+        tier: backend
     spec:
       containers:
         - name: nginx
@@ -42,5 +46,3 @@ spec:
             items:
             - key: config
               path: site.conf
-
-
