@@ -74,7 +74,7 @@ kubectl apply -f local/services/ingress.yml
 Once this is up and running you can check for address and port with 
 
 ```
-kubectl get ingress -n smt-local                            
+kubectl get ingress -n smt-local
 Warning: extensions/v1beta1 Ingress is deprecated in v1.14+, unavailable in v1.22+; use networking.k8s.io/v1 Ingress
 NAME               CLASS    HOSTS            ADDRESS        PORTS   AGE
 ingress-resource   <none>   smart48k8.test   192.168.64.5   80      6m48s
@@ -93,19 +93,10 @@ to use the storage for local testing apply the one in local directory
 _minikube supports PersistentVolumes of type hostPath out of the box. These PersistentVolumes are mapped to a directory inside the running minikube instance (usually a VM, unless you use --driver=none, --driver=docker, or --driver=podman). For more information on how this works, read the Dynamic Provisioning section below._
 
 _In addition, minikube implements a very simple, canonical implementation of dynamic storage controller that runs alongside its deployment. This manages provisioning of hostPath volumes (rather then via the previous, in-tree hostPath provider)._
-
-### PV
-
-Persistent Volume for only a PVC chosen with in-tree host path:
-
-```
-kubectl apply -f local/storage/code-pv.yml
-kubectl apply -f local/storage/nginx-pv.yml
-kubectl apply -f local/storage/mysql-pv.yml
-```
-
-
 ### Persisent volume claim
+
+
+We will use the default dynamic storage class so no need to create volumes:
 
 _...canonical implementation of dynamic storage controller that runs alongside its deployment._
 
@@ -114,26 +105,22 @@ https://platform9.com/blog/tutorial-dynamic-provisioning-of-persistent-storage-i
 
 ```
 kubectl apply -f local/storage/code-pv-claim.yml
+kubectl apply -f local/storage/nginx-pv-claim.yml
+kubectl apply -f local/storage/mysql-pv-claim.yml
+kubectl apply -f local/storage/redis-pv-claim.yml
 ```
 
 and to check it has been created and is running we can use `kubectl get pv` and to delete all (dangerous) use `kubectl delete pvc --all`
 
 *Notes on Persistent volume and testing still needed*
 
-You also need to add persistent storage for the database containers so use
-
-```
-kubectl apply -f local/storage/mysql-pv-claim.yml
-kubectl apply -f local/storage/redis-pv-claim.yml
-```
-
-To check where all is stored do a pcv check:
+To check where all is stored do a pcv check (tab in zsh allows choosing on of them):
 
 ```
 kubectl describe pv pvc-.....
 ```
 
-to see the Path. Then ssh into minikube using 
+to see the Path. In the case of Redis with will be `/tmp/hostpath-provisioner/smt-local/redis-pv-claim` Then ssh into minikube using 
 
 ```
 minkube ssh
@@ -155,10 +142,10 @@ drwxrwxrwx 2 root root 4096 Dec  7 05:02 nginx-pv-claim
 
 ## Secrets
 
-We do have a secret to store MySQL and Redis data
+We do have a secret to store MySQL data
 
 ```
-kubectl apply -f local/secret/yml
+kubectl apply -f local/secret.yml
 ```
 
 
@@ -180,6 +167,7 @@ data:
   PASSWORD: cGFzc3dvcmQ=
 ```
 
+**NB** We have not added a block for Redis yet
 ## Local Deployments 
 
 Local deployments are split in deployments for the app and other containers
