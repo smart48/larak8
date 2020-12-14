@@ -18,7 +18,7 @@ spec:
         backend:
           service:
             # refers to our app service exposed to the cluster
-            name: app 
+            name: nginx 
             port:
               number: 8080
 
