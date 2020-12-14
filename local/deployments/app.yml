@@ -5,7 +5,9 @@ metadata:
   name: app
   namespace: smt-local
 spec:
-  replicas: 2
+  # autoscale using `kubectl autoscale deployment x --cpu-percent=50 --min=1 --max=10` instead of setting replicas
+  # https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/
+  # replicas: 2 
   selector:
     matchLabels:
       app: web
@@ -63,15 +65,14 @@ spec:
       initContainers:
         - name: git-cloner
           image: alpine/git
-          imagePullPolicy: IfNotPresent
           args:
               - clone
               - --single-branch
               - --
               - https://github.com/smart48/smt-demo
-              # - /code
+              - /data
           volumeMounts:
-          - mountPath: /code
+          - mountPath: /data
             name: code-storage
       volumes:
         - name: code-storage
