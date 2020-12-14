@@ -29,9 +29,7 @@ To create a namespace based on file you can use this:
 kubectl apply -f local/namespace.yml
 ```
 
-Then this namespace can be used instead of default to launch your pods into.
-
-To check whethere the new namespace is there you can run
+Then this namespace can be used instead of default to launch your pods into. To check whethere the new namespace is there you can run
 
 ```
 kubectl get namespaces
@@ -110,7 +108,13 @@ kubectl apply -f local/storage/mysql-pv-claim.yml
 kubectl apply -f local/storage/redis-pv-claim.yml
 ```
 
-and to check it has been created and is running we can use `kubectl get pv` and to delete all (dangerous) use `kubectl delete pvc --all`
+and to check it has been created and is running we can use 
+
+```
+kubectl get pv
+``` 
+
+and to delete all (dangerous) use `kubectl delete pvc --all`
 
 *Notes on Persistent volume and testing still needed*
 
@@ -148,7 +152,6 @@ We do have a secret to store MySQL data
 kubectl apply -f local/secret.yml
 ```
 
-
 Example:
 
 ```yaml
@@ -176,7 +179,11 @@ To allow Nginx to talk to PHP we do need to expose the PHP container in the app 
 kubectl apply -f local/services/php.yml
 ```
 
-We are using Ingress so we do not need to expose the Nginx container.
+and for nginx to get Ingress to move data there
+
+```
+kubectl apply -f local/services/nginx.yml
+```
 
 ## Local Deployments 
 
@@ -185,7 +192,12 @@ Local deployments are split in deployments for the app and other containers
 To fire up the app with the Laravel and Nginx container run
 
 ```
-kubectl apply -f local/deployments/app.yml
+kubectl apply -f local/deployments/php.yml
+```
+
+and then
+```
+kubectl apply -f configs/nginx_configMap.yaml
 kubectl apply -f local/deployments/nginx.yml
 ```
 
