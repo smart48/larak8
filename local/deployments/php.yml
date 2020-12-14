@@ -2,7 +2,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app
+  name: php
   namespace: smt-local
 spec:
   # autoscale using `kubectl autoscale deployment x --cpu-percent=50 --min=1 --max=10` instead of setting replicas
@@ -10,7 +10,7 @@ spec:
   # replicas: 2 
   selector:
     matchLabels:
-      app: web
+      app: php
   strategy:
     rollingUpdate:
       maxSurge: 1
@@ -19,11 +19,11 @@ spec:
   template:
     metadata:
       labels:
-        app: web
+        app: php
     spec:
       containers:
-        - name: laravel
-          image: smart48/smt-laravel:latest
+        - name: php
+          image: php:7-fpm
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 9000
