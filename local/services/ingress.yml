@@ -20,5 +20,5 @@ spec:
             # refers to our app service exposed to the cluster
             name: nginx 
             port:
-              number: 8080
+              number: 80
 
