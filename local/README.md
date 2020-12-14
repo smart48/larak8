@@ -186,6 +186,7 @@ To fire up the app with the Laravel and Nginx container run
 
 ```
 kubectl apply -f local/deployments/app.yml
+kubectl apply -f local/deployments/nginx.yml
 ```
 
 then we have the other deployments excluding the databases:
