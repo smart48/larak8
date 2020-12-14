@@ -168,6 +168,16 @@ data:
 ```
 
 **NB** We have not added a block for Redis yet
+## Services 
+
+To allow Nginx to talk to PHP we do need to expose the PHP container in the app deployment. For that we do a:
+
+```
+kubectl apply -f local/services/php.yml
+```
+
+We are using Ingress so we do not need to expose the Nginx container.
+
 ## Local Deployments 
 
 Local deployments are split in deployments for the app and other containers
@@ -191,11 +201,4 @@ To run the MySQL database and Redis containers run
 ```
 kubectl apply -f local/deployments/mysql.yml
 kubectl apply -f local/deployments/redis.yml
-```
-
-
-## Services 
-
-```
-kubectl apply -f local/services/app.yml
 ```
