@@ -907,3 +907,69 @@ macOs
 ```
 mac echo -n 'root' | openssl base64
 ```
+
+## Ingress Issues
+
+```
+kubectl logs -f pod/ingress-nginx-controller-558664778f-8mw9f -n kube-system
+```
+
+
+and you could see something like this where it shows there is a 503 and no endpoints
+
+```
+W1214 09:15:02.081958       7 warnings.go:67] networking.k8s.io/v1beta1 Ingress is deprecated in v1.19+, unavailable in v1.22+; use networking.k8s.io/v1 Ingress
+W1214 09:23:09.085274       7 warnings.go:67] networking.k8s.io/v1beta1 Ingress is deprecated in v1.19+, unavailable in v1.22+; use networking.k8s.io/v1 Ingress
+W1214 09:30:53.087830       7 warnings.go:67] networking.k8s.io/v1beta1 Ingress is deprecated in v1.19+, unavailable in v1.22+; use networking.k8s.io/v1 Ingress
+W1214 09:40:00.091440       7 warnings.go:67] networking.k8s.io/v1beta1 Ingress is deprecated in v1.19+, unavailable in v1.22+; use networking.k8s.io/v1 Ingress
+W1214 09:47:36.094829       7 warnings.go:67] networking.k8s.io/v1beta1 Ingress is deprecated in v1.19+, unavailable in v1.22+; use networking.k8s.io/v1 Ingress
+W1214 09:54:10.096519       7 warnings.go:67] networking.k8s.io/v1beta1 Ingress is deprecated in v1.19+, unavailable in v1.22+; use networking.k8s.io/v1 Ingress
+W1214 10:03:22.099057       7 warnings.go:67] networking.k8s.io/v1beta1 Ingress is deprecated in v1.19+, unavailable in v1.22+; use networking.k8s.io/v1 Ingress
+W1214 10:13:14.101710       7 warnings.go:67] networking.k8s.io/v1beta1 Ingress is deprecated in v1.19+, unavailable in v1.22+; use networking.k8s.io/v1 Ingress
+W1214 10:18:42.103631       7 warnings.go:67] networking.k8s.io/v1beta1 Ingress is deprecated in v1.19+, unavailable in v1.22+; use networking.k8s.io/v1 Ingress
+W1214 10:25:03.105804       7 warnings.go:67] networking.k8s.io/v1beta1 Ingress is deprecated in v1.19+, unavailable in v1.22+; use networking.k8s.io/v1 Ingress
+W1214 10:32:53.107958       7 warnings.go:67] networking.k8s.io/v1beta1 Ingress is deprecated in v1.19+, unavailable in v1.22+; use networking.k8s.io/v1 Ingress
+W1214 10:41:15.110221       7 warnings.go:67] networking.k8s.io/v1beta1 Ingress is deprecated in v1.19+, unavailable in v1.22+; use networking.k8s.io/v1 Ingress
+W1214 10:50:17.112228       7 warnings.go:67] networking.k8s.io/v1beta1 Ingress is deprecated in v1.19+, unavailable in v1.22+; use networking.k8s.io/v1 Ingress
+W1214 10:58:53.116279       7 warnings.go:67] networking.k8s.io/v1beta1 Ingress is deprecated in v1.19+, unavailable in v1.22+; use networking.k8s.io/v1 Ingress
+192.168.64.1 - - [14/Dec/2020:11:07:02 +0000] "GET / HTTP/1.1" 503 190 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.1 Safari/605.1.15" 357 0.000 [smt-local-nginx-8080] [] - - - - c0a25f0592e036fc43cd6493b5d61878
+W1214 11:07:17.118076       7 warnings.go:67] networking.k8s.io/v1beta1 Ingress is deprecated in v1.19+, unavailable in v1.22+; use networking.k8s.io/v1 Ingress
+W1214 11:11:46.559640       7 controller.go:937] Service "smt-local/nginx" does not have any active Endpoint.
+W1214 11:11:49.892977       7 controller.go:937] Service "smt-local/nginx" does not have any active Endpoint.
+W1214 11:11:53.226835       7 controller.go:937] Service "smt-local/nginx" does not have any active Endpoint.
+W1214 11:11:56.560180       7 controller.go:937] Service "smt-local/nginx" does not have any active Endpoint.
+W1214 11:14:26.120896       7 warnings.go:67] networking.k8s.io/v1beta1 Ingress is deprecated in v1.19+, unavailable in v1.22+; use networking.k8s.io/v1 Ingress
+192.168.64.1 - - [14/Dec/2020:11:15:30 +0000] "GET / HTTP/1.1" 503 190 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.1 Safari/605.1.15" 357 0.000 [smt-local-nginx-8080] [] - - - - 2121620296b56907c2aaef83e9904185
+```
+
+## Label Selector Immutable
+
+https://stackoverflow.com/a/58909680/460885
+
+_Note: In API version apps/v1, a Deployment’s label selector is immutable after it gets created._
+
+```
+The Deployment "nginx" is invalid: spec.selector: Invalid value: v1.LabelSelector{MatchLabels:map[string]string{"app":"nginx", "tier":"backend"}, MatchExpressions:[]v1.LabelSelectorRequirement(nil)}: field is immutable
+➜  smt-deploy git:(main) ✗ kubectl delete deployments.apps nginx       
+deployment.apps "nginx" deleted
+➜  smt-deploy git:(main) ✗ kubectl apply -f local/deployments/nginx.yml
+deployment.apps/nginx created
+```
+
+then newly setup labels got applied and endpoint started to work
+
+```
+kubectl get endpoints                                                       
+NAME    ENDPOINTS         AGE
+nginx   172.17.0.5:8080   5h50m
+php     <none>            5h50m
+```
+
+## Connection refused upstream
+
+```
+192.168.64.1 - - [14/Dec/2020:12:38:11 +0000] "GET / HTTP/1.1" 502 150 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.1 Safari/605.1.15" 357 0.001 [smt-local-nginx-8080] [] 172.17.0.5:8080, 172.17.0.5:8080, 172.17.0.5:8080 0, 0, 0 0.001, 0.000, 0.000 502, 502, 502 3996d026304a894ccf59c04b7c6bffb3
+2020/12/14 12:38:11 [error] 280#280: *130058 connect() failed (111: Connection refused) while connecting to upstream, client: 192.168.64.1, server: smart48k8.local, request: "GET / HTTP/1.1", upstream: "http://172.17.0.5:8080/", host: "smart48k8.local"
+2020/12/14 12:38:11 [error] 280#280: *130058 connect() failed (111: Connection refused) while connecting to upstream, client: 192.168.64.1, server: smart48k8.local, request: "GET / HTTP/1.1", upstream: "http://172.17.0.5:8080/", host: "smart48k8.local"
+2020/12/14 12:38:11 [error] 280#280: *130058 connect() failed (111: Connection refused) while connecting to upstream, client: 192.168.64.1, server: smart48k8.local, request: "GET / HTTP/1.1", upstream: "http://172.17.0.5:8080/", host: "smart48k8.local"
+```
