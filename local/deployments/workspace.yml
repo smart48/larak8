@@ -3,19 +3,31 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: workspace
+  labels:
+    tier: backend
   namespace: smt-local
 spec:
-  replicas: 3
+  # replicas: 2
+  selector:
+    matchLabels:
+      app: workspace
+      tier: backend
   template:
     metadata:
       labels:
         app: workspace
+        tier: backend
     spec:
       containers:
         - name: workspace
-          image: smart48/smt-workspace:latest
+          image: smart48/smt-workspace:1.0
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 22
           volumeMounts:
-            - name: code
+            - name: code-storage
               mountPath: /code
+      volumes:
+        - name: code-storage
+          persistentVolumeClaim:
+            claimName: code-pv-claim
