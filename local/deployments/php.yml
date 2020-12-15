@@ -27,7 +27,8 @@ spec:
     spec:
       containers:
         - name: php
-          image: php:7-fpm
+          # image: php:7-fpm
+          image: smart48/smt-laravel:1.0
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 9000
@@ -38,6 +39,8 @@ spec:
               cpu: 500m
           volumeMounts:
           - name: code-storage
+          # may use /var/www/html at a later stage as this is php container base path 
+          # and logical web root
             mountPath: /code
         # - name: laravel-horizon
         #   image: smart48/smt-horizon:latest
@@ -54,20 +57,21 @@ spec:
         #       exec:
         #         command: ["/usr/local/bin/php", "artisan", "horizon:terminate"]
       # Laravel Code Download so we can run Horizon without issues 
-      # and have a codebase to start with For private repo better to add 
-      # code to laravel image https://codepre.com/how-to-perform-git-clone-in-kubernetes-pod-deployment.html
-      initContainers:
-        - name: git-cloner
-          image: alpine/git
-          args:
-              - clone
-              - --single-branch
-              - --
-              - https://github.com/smart48/smt-demo
-              - /data
-          volumeMounts:
-          - mountPath: /data
-            name: code-storage
+      # and have a codebase to start with For private repo better to add code to laravel image 
+      # https://codepre.com/how-to-perform-git-clone-in-kubernetes-pod-deployment.html
+      # commented out as we only need to fire it on first deployment
+      # initContainers:
+      #   - name: git-cloner
+      #     image: alpine/git
+      #     args:
+      #         - clone
+      #         - --single-branch
+      #         - --
+      #         - https://github.com/smart48/smt-demo
+      #         - /data
+      #     volumeMounts:
+      #     - mountPath: /data
+      #       name: code-storage
       volumes:
         - name: code-storage
           persistentVolumeClaim:
