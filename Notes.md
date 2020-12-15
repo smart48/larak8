@@ -1047,3 +1047,9 @@ kubectl exec -it php-58f4db67c5-bcd6j -c php -- /bin/bash
 ```
 
 with minikube as context running.
+
+## DigitalOcean SSH Access
+
+https://www.digitalocean.com/docs/kubernetes/
+
+_Worker nodes are built on Droplets, but unlike standalone Droplets, worker nodes are managed with the Kubernetes command-line client kubectl and are not accessible with SSH. On both the master nodes and the worker nodes, DigitalOcean maintains the system updates, security patches, operating system configuration and installed packages._
