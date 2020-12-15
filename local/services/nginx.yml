@@ -11,4 +11,5 @@ spec:
   ports:
   - protocol: TCP
     port: 80
+    # targetport is the internal port where traffic is sent to
     targetPort: 80
