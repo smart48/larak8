@@ -1003,3 +1003,27 @@ which told us nothing much. We had tho check the web server logs of course. So w
 ```
 
 where a directory index issue was the case.
+
+## SSH into Workspace
+
+Trying to SSH into Minikube using user root
+```
+ssh root@192.168.64.17 -p 2222
+ssh: connect to host 192.168.64.17 port 2222: Connection refused
+```
+
+This solution https://stackoverflow.com/a/42913652/460885 however does work
+
+```
+ssh -i ~/.minikube/machines/minikube/id_rsa docker@$(minikube ip)
+The authenticity of host '192.168.64.17 (192.168.64.17)' can't be established.
+ECDSA key fingerprint is SHA256:XkrFt/OSsZq+y1ulNOn2yiWg8ExJf+rBOH45xFGlcyQ.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added '192.168.64.17' (ECDSA) to the list of known hosts.
+                         _             _            
+            _         _ ( )           ( )           
+  ___ ___  (_)  ___  (_)| |/')  _   _ | |_      __  
+/' _ ` _ `\| |/' _ `\| || , <  ( ) ( )| '_`\  /'__`\
+| ( ) ( ) || || ( ) || || |\`\ | (_) || |_) )(  ___/
+(_) (_) (_)(_)(_) (_)(_)(_) (_)`\___/'(_,__/'`\____)
+```
