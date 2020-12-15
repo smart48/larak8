@@ -1027,3 +1027,23 @@ Warning: Permanently added '192.168.64.17' (ECDSA) to the list of known hosts.
 | ( ) ( ) || || ( ) || || |\`\ | (_) || |_) )(  ___/
 (_) (_) (_)(_)(_) (_)(_)(_) (_)`\___/'(_,__/'`\____)
 ```
+
+then something like 
+
+```
+docker exec -it 6cf3f4b9a6eb  bash
+```
+
+can get you into the running container for php. This name you have to check using 
+
+```
+docker container ls
+```
+
+You could however just as well use
+
+```
+kubectl exec -it php-58f4db67c5-bcd6j -c php -- /bin/bash
+```
+
+with minikube as context running.
