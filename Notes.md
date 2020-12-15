@@ -973,3 +973,33 @@ php     <none>            5h50m
 2020/12/14 12:38:11 [error] 280#280: *130058 connect() failed (111: Connection refused) while connecting to upstream, client: 192.168.64.1, server: smart48k8.local, request: "GET / HTTP/1.1", upstream: "http://172.17.0.5:8080/", host: "smart48k8.local"
 2020/12/14 12:38:11 [error] 280#280: *130058 connect() failed (111: Connection refused) while connecting to upstream, client: 192.168.64.1, server: smart48k8.local, request: "GET / HTTP/1.1", upstream: "http://172.17.0.5:8080/", host: "smart48k8.local"
 ```
+
+fixed with port changes
+
+## Nginx 403
+
+To deal with an Nginx 403 error we get into web server territory. So first we checked the Ingress Nginx log:
+
+`kubectl logs -f pod/ingress-nginx-controller-558664778f-8mw9f -n kube-system`:
+
+```
+192.168.64.1 - - [14/Dec/2020:13:12:50 +0000] "GET / HTTP/1.1" 403 153 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.1 Safari/605.1.15" 357 0.002 [smt-local-nginx-80] [] 172.17.0.5:80 153 0.002 403 ca583d3cd30f3457431199bedb5f0a0a
+W1214 13:12:56.159157       7 warnings.go:67] networking.k8s.io/v1beta1 Ingress is deprecated in v1.19+, unavailable in v1.22+; use networking.k8s.io/v1 Ingress
+192.168.64.1 - - [14/Dec/2020:13:12:58 +0000] "GET / HTTP/1.1" 403 153 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.1 Safari/605.1.15" 357 0.001 [smt-local-nginx-80] [] 172.17.0.5:80 153 0.001 403 035a77eacf3c080e7584f51f699c2da3
+192.168.64.1 - - [14/Dec/2020:13:16:06 +0000] "GET / HTTP/1.1" 403 153 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKi
+```
+which told us nothing much. We had tho check the web server logs of course. So we checked the pod's logs for container Nginx:
+
+`kubectl logs -f nginx-c5f5ddfc4-kr69j nginx`:
+
+
+```
+2020/12/14 13:12:50 [error] 21#21: *1 directory index of "/code/" is forbidden, client: 172.17.0.3, server: , request: "GET / HTTP/1.1", host: "smart48k8.local"
+172.17.0.3 - - [14/Dec/2020:13:12:50 +0000] "GET / HTTP/1.1" 403 153 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.1 Safari/605.1.15"
+2020/12/14 13:12:58 [error] 21#21: *1 directory index of "/code/" is forbidden, client: 172.17.0.3, server: , request: "GET / HTTP/1.1", host: "smart48k8.local"
+172.17.0.3 - - [14/Dec/2020:13:12:58 +0000] "GET / HTTP/1.1" 403 153 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.1 Safari/605.1.15"
+2020/12/14 13:16:06 [error] 21#21: *2 directory index of "/code/" is forbidden, client: 172.17.0.3, server: , request: "GET / HTTP/1.1", host: "smart48k8.local"
+172.17.0.3 - - [14/Dec/2020:13:16:06 +0000] "GET / HTTP/1.1" 403 153 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.1 Safari/605.1.15"
+```
+
+where a directory index issue was the case.
