@@ -10,4 +10,6 @@ spec:
     - protocol: TCP
       port: 2222
       # targetport is the internal port where traffic is sent to
+      # By default and for convenience, the targetPort is set to the same value
+      # as the port field.
       targetPort: 22
