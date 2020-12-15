@@ -207,6 +207,10 @@ then we have the other deployments excluding the databases:
 kubectl apply -f local/deployments/php-worker.yml
 kubectl apply -f local/deployments/workspace.yml
 ```
+
+#### Workspace
+
+Workspace currently works well with NPM and composer. First setup has all files and directories as root however. So a `chown -R laradock:laradock code/` is necessry to make them owned by user and group laradock which translates into user docker and group docker on the VM. This is still not ideal but better.
 ### Databases
 
 To run the MySQL database and Redis containers run
