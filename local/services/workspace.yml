@@ -4,6 +4,8 @@ metadata:
   name: workspace-service
   namespace: smt-local
 spec:
+  # type not chosen so ClusterIP
+  # type: NodePort
   selector:
     app: workspace
   ports:
@@ -13,3 +15,5 @@ spec:
       # By default and for convenience, the targetPort is set to the same value
       # as the port field.
       targetPort: 22
+      # minikube service --url workspace-service -n smt-local
+      # nodePort: 30007
