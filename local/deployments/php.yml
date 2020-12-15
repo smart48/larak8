@@ -4,6 +4,8 @@ kind: Deployment
 metadata:
   name: php
   namespace: smt-local
+  labels:
+    tier: backend
 spec:
   # autoscale using `kubectl autoscale deployment x --cpu-percent=50 --min=1 --max=10` instead of setting replicas
   # https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/
@@ -11,6 +13,7 @@ spec:
   selector:
     matchLabels:
       app: php
+      tier: backend
   strategy:
     rollingUpdate:
       maxSurge: 1
@@ -20,6 +23,7 @@ spec:
     metadata:
       labels:
         app: php
+        tier: backend
     spec:
       containers:
         - name: php
