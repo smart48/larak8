@@ -78,7 +78,7 @@ NAME               CLASS    HOSTS            ADDRESS        PORTS   AGE
 ingress-resource   <none>   smart48k8.test   192.168.64.5   80      6m48s
 ```
 
-**NBB** We added a host in this file called `smart48k8.local` and you do need to check `minikube ip` to attach this host to the ip in `/etc/host for it to load.
+**NBB** We added a host in this file called `smart48k8.local` and you do need to check `minikube ip` to attach this host to the ip in `/etc/host` for it to load.
 
 ## Local Persistent Volume
 
@@ -152,23 +152,6 @@ We do have a secret to store MySQL data
 kubectl apply -f local/secret.yml
 ```
 
-Example:
-
-```yaml
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name: mysql-secrets
-  namespace: smt-local
-type: Opaque
-data:
-  # echo -n "root" | base64
-  # mac echo -n 'root' | openssl base64
-  ROOT_PASSWORD: cm9vdA==
-  # password
-  PASSWORD: cGFzc3dvcmQ=
-```
 
 **NB** We have not added a block for Redis yet
 ## Services 
@@ -184,6 +167,14 @@ and for nginx to get Ingress to move data there
 ```
 kubectl apply -f local/services/nginx.yml
 ```
+
+For the workspace we use the following:
+
+```
+kubectl apply -f local/services/workspace.yml
+```
+
+We may remove this service later down the line.
 
 ## Local Deployments 
 
