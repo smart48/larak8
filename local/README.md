@@ -72,7 +72,7 @@ kubectl apply -f local/services/ingress.yml
 Once this is up and running you can check for address and port with 
 
 ```
-kubectl get ingress -n smt-local
+kubectl get ingress
 Warning: extensions/v1beta1 Ingress is deprecated in v1.14+, unavailable in v1.22+; use networking.k8s.io/v1 Ingress
 NAME               CLASS    HOSTS            ADDRESS        PORTS   AGE
 ingress-resource   <none>   smart48k8.test   192.168.64.5   80      6m48s
