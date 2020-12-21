@@ -80,18 +80,15 @@ kubectl apply -f deployments/nginx.yml
 # Workspace Deployment
 kubectl apply -f deployments/workspace.yml
 
-
-# Get All Deployments
-echo -e "${BLUE}Display all current deployments${NC}";
-kubectl get deployments
-
 ## Databases
-
 # To run the MySQL database and Redis containers run
 kubectl apply -f deployments/mysql.yml
 
 # Redis not done yet
 # kubectl apply -f deployments/redis.yml
 
+# Get All Deployments
+echo -e "${BLUE}Display all current deployments${NC}";
+kubectl get deployments
 
 # echo "All has been setup for local Minikube work with Laravel.";
