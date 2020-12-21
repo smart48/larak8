@@ -2,6 +2,9 @@
 
 Local testing of the deployment can be done with Minikube. Also see [Notes](Notes.md) on setup and possible issues.
 
+## Quick Start
+
+To quickly get started use the `kube.sh` script in the local directory. It will run all the necessary scripts to get you started with Minikube locally. If you prefer to follow the process some more and do things more hands on then continue reading the steps below.
 
 ## Startup
 
@@ -21,7 +24,7 @@ kubectl config current-context
 
 It should show *minikube*
 
-## Local Namespace
+### Local Namespace
 
 To create a namespace based on file you can use this:
 
@@ -40,13 +43,13 @@ to make namespace default use
 kubectl config set-context --current --namespace=smt-local
 ```
 
-## Local Ingress Controller
+### Local Ingress Controller
 
 Locally you can run an Ingress Nginx as well, but in a slightly different way
 
 https://kubernetes.io/docs/tasks/access-application-cluster/ingress-minikube/
 
-#### Enable Minikube Nginx Ingres 
+##### Enable Minikube Nginx Ingres 
 To enable the NGINX Ingress controller, run the following command:
 
 ```
@@ -59,7 +62,7 @@ Verify that the NGINX Ingress controller is running:
 kubectl get pods -n kube-system
 ```
 
-## Ingress Resource 
+### Ingress Resource 
 
 https://kubernetes.io/docs/tasks/access-application-cluster/ingress-minikube/#create-an-ingress-resource
 
@@ -80,7 +83,7 @@ ingress-resource   <none>   smart48k8.test   192.168.64.5   80      6m48s
 
 **NBB** We added a host in this file called `smart48k8.local` and you do need to check `minikube ip` to attach this host to the ip in `/etc/host` for it to load.
 
-## Local Persistent Volume
+### Local Persistent Volume
 
 resources:
 - https://minikube.sigs.k8s.io/docs/handbook/persistent_volumes/
@@ -91,7 +94,7 @@ to use the storage for local testing apply the one in local directory
 _minikube supports PersistentVolumes of type hostPath out of the box. These PersistentVolumes are mapped to a directory inside the running minikube instance (usually a VM, unless you use --driver=none, --driver=docker, or --driver=podman). For more information on how this works, read the Dynamic Provisioning section below._
 
 _In addition, minikube implements a very simple, canonical implementation of dynamic storage controller that runs alongside its deployment. This manages provisioning of hostPath volumes (rather then via the previous, in-tree hostPath provider)._
-### Persisent volume claim
+#### Persisent volume claim
 
 
 We will use the default dynamic storage class so no need to create volumes:
@@ -107,6 +110,8 @@ kubectl apply -f local/storage/nginx-pv-claim.yml
 kubectl apply -f local/storage/mysql-pv-claim.yml
 kubectl apply -f local/storage/redis-pv-claim.yml
 ```
+
+### Persistent Volumes' Setup
 
 and to check it has been created and is running we can use 
 
@@ -144,7 +149,7 @@ drwxrwxrwx 7  999 root 4096 Dec  8 06:39 mysql-pv-claim
 drwxrwxrwx 2 root root 4096 Dec  7 05:02 nginx-pv-claim
 ```
 
-## Secrets
+### Database Secrets
 
 We do have a secret to store MySQL data
 
@@ -154,7 +159,7 @@ kubectl apply -f local/secret.yml
 
 
 **NB** We have not added a block for Redis yet
-## Services 
+### Services 
 
 To allow Nginx to talk to PHP we do need to expose the PHP container in the app deployment. For that we do a:
 
@@ -176,7 +181,7 @@ kubectl apply -f local/services/workspace.yml
 
 We may remove this service later down the line.
 
-## Local Deployments 
+### Local Deployments 
 
 Local deployments are split in deployments for the app and other containers
 
@@ -192,6 +197,9 @@ kubectl apply -f configs/nginx_configMap.yaml
 kubectl apply -f local/deployments/nginx.yml
 ```
 
+
+#### Worspace and Worker Deployments
+
 then we have the other deployments excluding the databases:
 
 ```
@@ -202,7 +210,7 @@ kubectl apply -f local/deployments/workspace.yml
 #### Workspace
 
 Workspace currently works well with NPM and composer. First setup has all files and directories as root however. So a `chown -R laradock:laradock code/` is necessry to make them owned by user and group laradock which translates into user docker and group docker on the VM. This is still not ideal but better.
-### Databases
+### Database Deployments
 
 To run the MySQL database and Redis containers run
 
