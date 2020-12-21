@@ -39,6 +39,9 @@ kubectl apply -f storage/nginx-pv-claim.yml
 kubectl apply -f storage/mysql-pv-claim.yml
 kubectl apply -f storage/redis-pv-claim.yml
 
+echo -e  "${BLUE}Sleeping for 3 seconds…${NC}"
+sleep 3
+echo -e "${BLUE}Completed${NC}"
 
 # Check all Pvs are up and running
 echo -e "${BLUE}Show all added volumes with storage capacity, status, claim and storage class${NC}";
@@ -57,6 +60,9 @@ kubectl apply -f services/nginx.yml
 # Set up Workspace Service
 kubectl apply -f services/workspace.yml
 
+echo -e "${BLUE}Sleeping for 3 seconds…${NC}"
+sleep 3
+echo -e "${BLUE}Completed${NC}"
 
 # Show all Services
 echo -e "${BLUE}Show all Services currently running in our chosen namespace${NC}";
@@ -87,8 +93,15 @@ kubectl apply -f deployments/mysql.yml
 # Redis not done yet
 # kubectl apply -f deployments/redis.yml
 
+
+echo -e "${BLUE}Sleeping for 3 seconds…${NC}"
+sleep 3
+echo -e "${BLUE}Completed${NC}"
+
 # Get All Deployments
 echo -e "${BLUE}Display all current deployments${NC}";
 kubectl get deployments
 
-# echo "All has been setup for local Minikube work with Laravel.";
+echo -e "${BLUE}All has been setup for local Minikube work with Laravel.${NC}";
+echo -e "${BLUE}Here a quick overview${NC}";
+kubectl get all
