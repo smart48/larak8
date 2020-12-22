@@ -12,7 +12,7 @@ data:
       listen  [::]:80 default_server;
       server_name smart48k8.local;
       
-      root /code/public;
+      root /code/current/public;
 
       add_header X-XSS-Protection "1; mode=block";
 
