@@ -32,6 +32,15 @@ spec:
           volumeMounts:
           - name: code-storage
             mountPath: /code
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            runAsUser: 1000
+            runAsGroup: 1000
+          # set security context for proper user:group
+          # securityContext:
+          # git-data group has the no blow as that is the group ID of the app user 
+          #   fsGroup: 65533 
           env:
           - name: GIT_SYNC_REPO
             value: https://github.com/smart48/smt-demo.git
@@ -41,12 +50,18 @@ spec:
             value: master
           - name: GIT_SYNC_DEPTH
             value: "1"
-          ## symlink directory
+          # symlink directory
           - name: GIT_SYNC_DEST
             value: current
           # not one off syncing as we will deploy often
           - name: GIT_SYNC_ONE_TIME
             value: "0"
+          # - name: GIT_SYNC_PERMISSIONS
+          #   value: "664"
+          # sync wait in seconds
+          # it is now default so 1 second
+          # - name: GIT_SYNC_WAIT
+          #   value: 
           # - name: GIT_SYNC_USERNAME
           #   valueFrom:
           #     secretKeyRef:
