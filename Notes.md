@@ -1053,3 +1053,22 @@ with minikube as context running.
 https://www.digitalocean.com/docs/kubernetes/
 
 _Worker nodes are built on Droplets, but unlike standalone Droplets, worker nodes are managed with the Kubernetes command-line client kubectl and are not accessible with SSH. On both the master nodes and the worker nodes, DigitalOcean maintains the system updates, security patches, operating system configuration and installed packages._
+
+
+### Git Syn Permissions
+
+```
+➜  smt-deploy git:(main) ✗ kubectl exec -it git-data-7bb76f8679-vvrr7 -- /bin/sh   
+~ $ cd code/
+/code $ ls -la
+total 16
+drwxrwxrwx  4 root   root   4096 Dec 22 05:43 .
+drwxr-xr-x  1 root   root   4096 Dec 22 05:43 ..
+drwxr-xr-x  9 nobody nobody 4096 Dec 22 05:43 .git
+lrwxrwxrwx  1 nobody nobody   44 Dec 22 05:43 current -> rev-959ac23559f27850a6af708f29a1b97da724aa8a
+drwxr-xr-x 13 nobody nobody 4096 Dec 22 05:43 rev-959ac23559f27850a6af708f29a1b97da724aa8a
+/code $ id nobody
+uid=65534(nobody) gid=65534(nobody) groups=65534(nobody)
+```
+
+Sets things at nodody and we have root for peristent volumn claims. When I made all files and dirs laradock or Docker 02 1000 I could no longer syn
