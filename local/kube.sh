@@ -25,13 +25,6 @@ minikube addons enable ingress
 echo -e "${BLUE}Check if Ingress Nginx has been enabled and is up and running${NC}";
 kubectl get pods -n kube-system
 
-# Set up Nginx Ingress Resource
-kubectl apply -f services/ingress.yml
-
-# Check if  Ingress Resource is up running
-echo -e "${BLUE}Check Ingress details including ip address${NC}";
-kubectl get ingress
-
 # Build Persistent Volumes and Volume Claims
 # You can comment out the ones you do not need
 kubectl apply -f storage/code-pv-claim.yml
@@ -101,6 +94,21 @@ echo -e "${BLUE}Completed${NC}"
 # Get All Deployments
 echo -e "${BLUE}Display all current deployments${NC}";
 kubectl get deployments
+
+# Get Latest Code
+echo -e "${BLUE}Get latest code${NC}";
+kubectl apply -f deployments/git-sync.yml
+
+echo -e "${BLUE}Sleeping for 3 seconds…${NC}"
+sleep 3
+echo -e "${BLUE}Completed${NC}"
+
+# Set up Nginx Ingress Resource
+kubectl apply -f services/ingress.yml
+
+# Check if  Ingress Resource is up running
+echo -e "${BLUE}Check Ingress details including ip address${NC}";
+kubectl get ingress
 
 echo -e "${BLUE}All has been setup for local Minikube work with Laravel.${NC}";
 echo -e "${BLUE}Here a quick overview${NC}";
