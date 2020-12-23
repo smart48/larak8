@@ -35,6 +35,7 @@ spec:
           securityContext:
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: true
+          # docker/laradock = 1000
             runAsUser: 1000
             runAsGroup: 1000
           # set security context for proper user:group
