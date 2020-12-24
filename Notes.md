@@ -915,6 +915,12 @@ kubectl logs -f pod/ingress-nginx-controller-558664778f-8mw9f -n kube-system
 ```
 
 
+or
+
+```
+kubectl logs -f ingress-nginx-controller-558664778f-r9hrf -n kube-system
+```
+
 and you could see something like this where it shows there is a 503 and no endpoints
 
 ```
@@ -924,11 +930,7 @@ W1214 09:30:53.087830       7 warnings.go:67] networking.k8s.io/v1beta1 Ingress 
 W1214 09:40:00.091440       7 warnings.go:67] networking.k8s.io/v1beta1 Ingress is deprecated in v1.19+, unavailable in v1.22+; use networking.k8s.io/v1 Ingress
 W1214 09:47:36.094829       7 warnings.go:67] networking.k8s.io/v1beta1 Ingress is deprecated in v1.19+, unavailable in v1.22+; use networking.k8s.io/v1 Ingress
 W1214 09:54:10.096519       7 warnings.go:67] networking.k8s.io/v1beta1 Ingress is deprecated in v1.19+, unavailable in v1.22+; use networking.k8s.io/v1 Ingress
-W1214 10:03:22.099057       7 warnings.go:67] networking.k8s.io/v1beta1 Ingress is deprecated in v1.19+, unavailable in v1.22+; use networking.k8s.io/v1 Ingress
-W1214 10:13:14.101710       7 warnings.go:67] networking.k8s.io/v1beta1 Ingress is deprecated in v1.19+, unavailable in v1.22+; use networking.k8s.io/v1 Ingress
-W1214 10:18:42.103631       7 warnings.go:67] networking.k8s.io/v1beta1 Ingress is deprecated in v1.19+, unavailable in v1.22+; use networking.k8s.io/v1 Ingress
-W1214 10:25:03.105804       7 warnings.go:67] networking.k8s.io/v1beta1 Ingress is deprecated in v1.19+, unavailable in v1.22+; use networking.k8s.io/v1 Ingress
-W1214 10:32:53.107958       7 warnings.go:67] networking.k8s.io/v1beta1 Ingress is deprecated in v1.19+, unavailable in v1.22+; use networking.k8s.io/v1 Ingress
+....
 W1214 10:41:15.110221       7 warnings.go:67] networking.k8s.io/v1beta1 Ingress is deprecated in v1.19+, unavailable in v1.22+; use networking.k8s.io/v1 Ingress
 W1214 10:50:17.112228       7 warnings.go:67] networking.k8s.io/v1beta1 Ingress is deprecated in v1.19+, unavailable in v1.22+; use networking.k8s.io/v1 Ingress
 W1214 10:58:53.116279       7 warnings.go:67] networking.k8s.io/v1beta1 Ingress is deprecated in v1.19+, unavailable in v1.22+; use networking.k8s.io/v1 Ingress
@@ -1072,3 +1074,36 @@ uid=65534(nobody) gid=65534(nobody) groups=65534(nobody)
 ```
 
 Sets things at nodody and we have root for peristent volumn claims. When I made all files and dirs laradock or Docker 02 1000 I could no longer syn
+
+## Ingress SSH
+
+Ingress port 22 is open locally on Minikube
+
+```
+nmap 192.168.64.21
+Starting Nmap 7.91 ( https://nmap.org ) at 2020-12-23 10:02 +07
+Nmap scan report for smart48k8.local (192.168.64.21)
+Host is up (0.10s latency).
+Not shown: 994 closed ports
+PORT     STATE SERVICE
+22/tcp   open  ssh
+80/tcp   open  http
+111/tcp  open  rpcbind
+443/tcp  open  https
+2049/tcp open  nfs
+8443/tcp open  https-alt
+```
+
+When I updated Ingress with port 2222, ssh I got
+
+```
+nmap $(minikube ip) -p 2222
+Starting Nmap 7.91 ( https://nmap.org ) at 2020-12-23 10:43 +07
+Nmap scan report for smart48k8.local (192.168.64.21)
+Host is up (0.00059s latency).
+
+PORT     STATE    SERVICE
+2222/tcp filtered EtherNetIP-1
+
+Nmap done: 1 IP address (1 host up) scanned in 0.28 seconds
+```
