@@ -30,4 +30,4 @@ spec:
       volumes:
         - name: code-storage
           persistentVolumeClaim:
-            claimName: code-pv-claim
+            claimName: code
