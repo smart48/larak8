@@ -96,12 +96,13 @@ echo -e "${BLUE}Display all current deployments${NC}";
 kubectl get deployments
 
 # Get Latest Code
-echo -e "${BLUE}Get latest code${NC}";
-kubectl apply -f deployments/git-sync.yml
+# Not using Git Sync at the moment
+# echo -e "${BLUE}Get latest code${NC}";
+# kubectl apply -f deployments/git-sync.yml
 
-echo -e "${BLUE}Sleeping for 3 seconds…${NC}"
-sleep 3
-echo -e "${BLUE}Completed${NC}"
+# echo -e "${BLUE}Sleeping for 3 seconds…${NC}"
+# sleep 3
+# echo -e "${BLUE}Completed${NC}"
 
 # Set up Nginx Ingress Resource
 kubectl apply -f services/ingress.yml
